@@ -6,11 +6,13 @@ import com.example.worrybox.utils.entity.Status;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 @Entity
+@Table(name="Users")
 @Getter
 @Setter
 @SuperBuilder
