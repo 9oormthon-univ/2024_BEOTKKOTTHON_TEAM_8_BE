@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,6 +31,7 @@ public class UserController {
         @ApiResponse(responseCode = "400", description = "헤더 없음 or 토큰 불일치",
             content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
+    @PostMapping("/users/join")
     public BaseResponse<Long> join(@RequestBody PostJoinReq postJoinReq) {
         try {
             String name = postJoinReq.getName();
