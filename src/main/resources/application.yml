@@ -1,8 +1,10 @@
 spring:
+  profiles:
+    active: ${DATABASE} # yml ??? ??? ?? ex) application-local.yml
   datasource:
-    url: ${DB_JDBC_URL}
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+#    url: ${DB_JDBC_URL}
+#    username: ${DB_USER}
+#    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
