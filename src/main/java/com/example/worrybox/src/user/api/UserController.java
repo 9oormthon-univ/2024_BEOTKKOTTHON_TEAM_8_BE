@@ -1,6 +1,7 @@
 package com.example.worrybox.src.user.api;
 
 import com.example.worrybox.src.user.api.dto.request.PostJoinReq;
+import com.example.worrybox.src.user.api.dto.response.PostJoinRes;
 import com.example.worrybox.src.user.application.UserService;
 import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.config.BaseResponse;
@@ -32,7 +33,7 @@ public class UserController {
             content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
     @PostMapping("/users/join")
-    public BaseResponse<Long> join(@RequestBody PostJoinReq postJoinReq) {
+    public BaseResponse<PostJoinRes> join(@RequestBody PostJoinReq postJoinReq) {
         try {
             String name = postJoinReq.getName();
             int password = postJoinReq.getPassword();

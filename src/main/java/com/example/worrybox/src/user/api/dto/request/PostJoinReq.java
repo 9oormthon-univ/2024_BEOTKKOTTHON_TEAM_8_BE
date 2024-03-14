@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class PostJoinReq {
-    @ApiModelProperty("보관함 이름")
+    @ApiModelProperty("OO의 보관함")
     String name;
     @ApiModelProperty("123456 (숫자 6자리)")
     int password;
