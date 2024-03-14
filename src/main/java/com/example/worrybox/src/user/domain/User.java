@@ -1,15 +1,16 @@
 package com.example.worrybox.src.user.domain;
 
+import com.example.worrybox.src.memo.domain.Memo;
 import com.example.worrybox.src.user.api.dto.request.PostJoinReq;
 import com.example.worrybox.utils.entity.BaseEntity;
 import com.example.worrybox.utils.entity.Status;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name="Users")
@@ -28,6 +29,9 @@ public class User extends BaseEntity {
 
     private String worry_start_time;
     private String worry_end_time;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Memo> Memos = new ArrayList<>();
 
     public static User of(PostJoinReq postJoinReq) {
         return User.builder()
