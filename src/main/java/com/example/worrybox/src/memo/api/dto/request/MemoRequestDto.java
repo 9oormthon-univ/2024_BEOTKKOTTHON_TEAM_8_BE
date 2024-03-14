@@ -6,8 +6,8 @@ import lombok.*;
 
 @Getter
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 public class MemoRequestDto {
 
     @ApiModelProperty("걱정 메모")

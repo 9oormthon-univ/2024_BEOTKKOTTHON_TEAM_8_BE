@@ -19,7 +19,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "회원가입 및 로그인")
+@Api(tags = "걱정 메모")
 @RequestMapping("")
 public class MemoController {
     private final MemoService memoService;
@@ -65,7 +65,12 @@ public class MemoController {
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
     @GetMapping("/memos/{userId}")
-    public BaseResponse<List<MemoResponseDto>> Memo(@PathVariable Long userId) throws BaseException {
-        return new BaseResponse<>(memoService.memoList(userId));
+    public BaseResponse<List<MemoResponseDto>> Memo(@PathVariable Long userId)  {
+        try{
+            return new BaseResponse<>(memoService.memoList(userId));
+        } catch (Exception e){
+            BaseResponseStatus status = BaseResponseStatus.INVALID_USER;
+            return new BaseResponse<>(status);
+        }
     }
 }
