@@ -17,7 +17,7 @@ public class Memo extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "meoe_id")
+    @Column(name = "memo_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)
