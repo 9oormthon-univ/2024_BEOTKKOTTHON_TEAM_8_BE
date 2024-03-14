@@ -12,7 +12,9 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +22,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "걱정 메모")
-@RequestMapping("")
+@RequestMapping("/memos")
 public class MemoController {
     private final MemoService memoService;
 
@@ -32,8 +34,8 @@ public class MemoController {
             @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
-    @PostMapping("/memos/{userId}")
-    public BaseResponse<String> writeMemo(@RequestBody MemoRequestDto memoRequestDto, @PathVariable Long userId) {
+    @PostMapping("/{userId}")
+    public BaseResponse<String> writeMemo(@RequestBody @Validated MemoRequestDto memoRequestDto, @PathVariable Long userId) {
         try {
             String memo = memoRequestDto.getWorryText();
 
@@ -64,7 +66,7 @@ public class MemoController {
             @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
-    @GetMapping("/memos/{userId}")
+    @GetMapping("/{userId}")
     public BaseResponse<List<MemoResponseDto>> Memo(@PathVariable Long userId)  {
         try{
             return new BaseResponse<>(memoService.memoList(userId));

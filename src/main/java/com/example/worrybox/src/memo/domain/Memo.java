@@ -17,16 +17,14 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Memo extends BaseEntity {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "memo_id")
-//    private Long id;
-
     @Enumerated(EnumType.STRING)
     private Status status;
 
     @NotNull
     private String worryText;
+
+    @NotNull
+    private String solution;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
@@ -36,6 +34,7 @@ public class Memo extends BaseEntity {
     public static Memo of(User user,MemoRequestDto memoRequestDto){
         return Memo.builder()
                 .worryText(memoRequestDto.getWorryText())
+                .solution(memoRequestDto.getSolution())
                 .status(Status.A)
                 .user(user)
                 .build();

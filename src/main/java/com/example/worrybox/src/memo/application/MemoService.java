@@ -49,6 +49,7 @@ public class MemoService {
             MemoResponseDto memoResponseDto = MemoResponseDto.builder()
                     .createdAt(memo.getCreatedAt())
                     .worryText(memo.getWorryText())
+                    .solution(memo.getSolution())
                     .build();
 
             memoResponseDtos.add(memoResponseDto);
