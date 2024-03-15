@@ -100,7 +100,11 @@ public class MemoService {
     private ChatResponse callChat(String question) {
         return chatClient.call(
                 new Prompt(
-                        (question + "너는 조언가야. 지금 질문에 대해 조언을 반말로 공감하고 해결책을 50자 이하로 말해줘"),
+                        (question +
+                                ". 너는 조언가야. " +
+                                "지금 걱정에 대해 공감하고 해결책을 반말로 친구처럼 조언해줘." +
+                                "50자 이하로 말해줘. " +
+                                "총 3문장 정도로 말해줘."),
                         OpenAiChatOptions.builder()
                                 .withTemperature(0.4F)
                                 .withFrequencyPenalty(0.7F)

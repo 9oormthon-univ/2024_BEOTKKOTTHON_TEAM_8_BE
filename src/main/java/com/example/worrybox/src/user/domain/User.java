@@ -1,5 +1,6 @@
 package com.example.worrybox.src.user.domain;
 
+import com.example.worrybox.src.cheering.domain.CheeringMessage;
 import com.example.worrybox.src.memo.domain.Memo;
 import com.example.worrybox.src.user.api.dto.request.PostJoinReq;
 import com.example.worrybox.utils.entity.BaseEntity;
@@ -32,6 +33,9 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Memo> Memos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<CheeringMessage> cheeringMessages = new ArrayList<>();
 
     public static User of(PostJoinReq postJoinReq) {
         return User.builder()

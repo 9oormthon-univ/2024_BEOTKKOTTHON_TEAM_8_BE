@@ -10,25 +10,18 @@ import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.config.BaseResponse;
 import com.example.worrybox.utils.config.BaseResponseStatus;
 import com.example.worrybox.utils.entity.Status;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "걱정 메모")
 @RequestMapping("/memos")
 public class MemoController {
     private final MemoService memoService;
