@@ -9,9 +9,10 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.sql.Timestamp;
+
 @Entity
 @Getter
-@Setter
 @SuperBuilder
 @AllArgsConstructor(access= AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -38,5 +39,8 @@ public class Memo extends BaseEntity {
                 .status(Status.A)
                 .user(user)
                 .build();
+    }
+    public void updateStatus(Status status) {
+        this.status = status;
     }
 }
