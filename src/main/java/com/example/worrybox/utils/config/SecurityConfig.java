@@ -1,5 +1,6 @@
 package com.example.worrybox.utils.config;
 
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
+import java.util.TimeZone;
 
 @Configuration
 @EnableWebSecurity
@@ -49,5 +51,11 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", configuration);
 
         return source;
+    }
+
+    // 시간 서울로 설정
+    @PostConstruct
+    public void setTimeZone(){
+        TimeZone.setDefault(TimeZone.getTimeZone("Asia/Seoul"));
     }
 }
