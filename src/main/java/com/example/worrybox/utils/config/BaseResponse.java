@@ -3,7 +3,6 @@ package com.example.worrybox.utils.config;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -33,6 +32,12 @@ public class BaseResponse<T> {
         this.isSuccess = status.isSuccess();
         this.message = status.getMessage();
         this.code = status.getCode();
+    }
+
+    public BaseResponse(BaseResponseStatus invalidParameters, String errorMessage) {
+        this.isSuccess = invalidParameters.isSuccess();
+        this.message = errorMessage;
+        this.code = invalidParameters.getCode();
     }
 }
 
