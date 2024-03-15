@@ -1,17 +1,14 @@
-package com.example.gcptest.gpt.dto;
+package com.example.worrybox.src.memo.api.dto.response;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class AiResDto {
-    private String question;
-    private String answer;
+public class AiResponseDto {
 
-//    public static AiResDto createAiResDto(AiResDto aiResDto){
-//
-//    }
+    @NotNull
+    private String answer;
 }

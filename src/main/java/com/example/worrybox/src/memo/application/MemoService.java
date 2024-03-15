@@ -1,6 +1,8 @@
 package com.example.worrybox.src.memo.application;
 
+import com.example.worrybox.src.memo.api.dto.request.AiRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
+import com.example.worrybox.src.memo.api.dto.response.AiResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
 import com.example.worrybox.src.memo.domain.Memo;
 import com.example.worrybox.src.memo.domain.repository.MemoRepository;
@@ -10,6 +12,10 @@ import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.entity.Status;
 import com.example.worrybox.utils.execption.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.ChatClient;
+import org.springframework.ai.chat.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,6 +29,7 @@ public class MemoService {
 
     private final MemoRepository memoRepository;
     private final UserRepository userRepository;
+    private final ChatClient chatClient;
 
     // 메모 작성
     @Transactional
@@ -70,5 +77,32 @@ public class MemoService {
 
         memo.setStatus(Status.D);
         return memo.getStatus();
+    }
+
+
+    // AI에게 조언 구하기
+    @Transactional
+    public AiResponseDto askForAdvice(AiRequestDto aiRequestDto){
+        ChatResponse response = callChat(aiRequestDto.getQuestion());
+        if (response == null) {
+            response = callChat(aiRequestDto.getQuestion());
+        }
+
+        return AiResponseDto.builder()
+                .answer(response.getResult().getOutput().getContent()).build();
+
+    }
+
+    // AI 응답 메서드
+    private ChatResponse callChat(String question) {
+        return chatClient.call(
+                new Prompt(
+                        (question + "너는 조언가야. 지금 질문에 대해 조언을 반말로 공감하고 해결책을 100자 이하로 말해줘"),
+                        OpenAiChatOptions.builder()
+                                .withTemperature(0.4F)
+                                .withFrequencyPenalty(0.7F)
+                                .withModel("gpt-3.5-turbo")
+                                .build()
+                ));
     }
 }

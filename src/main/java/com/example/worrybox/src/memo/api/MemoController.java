@@ -1,6 +1,8 @@
 package com.example.worrybox.src.memo.api;
 
+import com.example.worrybox.src.memo.api.dto.request.AiRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
+import com.example.worrybox.src.memo.api.dto.response.AiResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
 import com.example.worrybox.src.memo.application.MemoService;
 import com.example.worrybox.utils.config.BaseException;
@@ -15,6 +17,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -54,7 +58,7 @@ public class MemoController {
     }
 
     public BaseResponseStatus isJoinValid(String memo) {
-        if (memo.isBlank()) return BaseResponseStatus.JOIN_EMPTY_NAME;  // 메모가 비어있는지 확인
+        if (memo.isBlank()) return BaseResponseStatus.INVALID_MEMO;  // 메모가 비어있는지 확인
 
         return BaseResponseStatus.SUCCESS;
     }
@@ -92,6 +96,25 @@ public class MemoController {
         }
         catch (Exception e){
             BaseResponseStatus status = BaseResponseStatus.INVALID_MEMO;
+            return new BaseResponse<>(status);
+        }
+    }
+
+    // AI 응답
+    @Operation(summary = "AI 응답", description = "AI에게 물어봅니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "응답 생성을 성공했습니다"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
+                    content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
+    })
+    @PostMapping("/ai")
+    public BaseResponse<AiResponseDto> advice(@RequestBody AiRequestDto aiRequestDto){
+        try{
+            return new BaseResponse<>(memoService.askForAdvice(aiRequestDto));
+        }
+        catch (Exception e){
+            BaseResponseStatus status = BaseResponseStatus.RESPONSE_FAILURE;
             return new BaseResponse<>(status);
         }
     }
