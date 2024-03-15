@@ -24,6 +24,7 @@ public enum BaseResponseStatus {
     INVALID_USER(false, 6000,"유저로 메모를 찾을 수 없습니다."),
     INVALID_MEMO(false, 6001,"메모를 찾을 수 없습니다."),
     RESPONSE_FAILURE(false, 6002, "AI 생성에 실패했습니다."),
+    FAILED_EXTEND_TIME(false, 6003, "시간 늘려주기 실패했습니다."),
 
     /** 기타 **/
     WRONG_STATUS_CODE(false, 5000, "존재하지 않은 상태코드입니다."),
