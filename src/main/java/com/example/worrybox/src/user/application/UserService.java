@@ -1,6 +1,7 @@
 package com.example.worrybox.src.user.application;
 
 import com.example.worrybox.src.user.api.dto.request.PostJoinReq;
+import com.example.worrybox.src.user.api.dto.request.PostTimeReq;
 import com.example.worrybox.src.user.api.dto.response.PostJoinRes;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.src.user.domain.repository.UserRepository;
@@ -38,5 +39,20 @@ public class UserService {
             User newUser = userRepository.save(User.of(userReq));
             return new PostJoinRes(newUser.getId(), false);
         }
+    }
+
+    @Transactional
+    public Long timeSetting(Long userId, PostTimeReq timeReq) throws BaseException {
+        String startTime = timeReq.getStartTime();
+        String endTime = timeReq.getEndTime();
+
+        Optional<User> userById = userRepository.findByIdAndStatus(userId, Status.A);
+        if(userById.isEmpty()) throw new BaseException(BaseResponseStatus.INVALID_USER);
+
+        User user = userById.get();
+        user.setWorry_start_time(startTime);
+        user.setWorry_end_time(endTime);
+
+        return user.getId();
     }
 }
