@@ -34,5 +34,11 @@ public class BaseResponse<T> {
         this.message = status.getMessage();
         this.code = status.getCode();
     }
+
+    public BaseResponse(BaseResponseStatus invalidParameters, String errorMessage) {
+        this.isSuccess = invalidParameters.isSuccess();
+        this.message = errorMessage;
+        this.code = invalidParameters.getCode();
+    }
 }
 

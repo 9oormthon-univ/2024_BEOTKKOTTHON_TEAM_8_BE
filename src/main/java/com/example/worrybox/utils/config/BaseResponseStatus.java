@@ -20,10 +20,12 @@ public enum BaseResponseStatus {
 
     /** Letter **/
 
-    WRONG_STATUS_CODE(false, 5000, "존재하지 않은 상태코드입니다"),
 
     /** Memo **/
-    INVALID_USER(false, 6000,"유저로 메모를 찾을 수 없습니다.");
+    INVALID_USER(false, 6000,"유저로 메모를 찾을 수 없습니다."),
+
+    WRONG_STATUS_CODE(false, 5000, "존재하지 않은 상태코드입니다."),
+    INVALID_PARAMETERS(false, 400, "입력값이 잘못되었습니다.");
 
     // BaseResponseStatus Mapping
     private final boolean isSuccess;
