@@ -24,7 +24,8 @@ public enum BaseResponseStatus {
 
     /** Memo **/
     INVALID_USER(false, 6000,"유저로 메모를 찾을 수 없습니다."),
-    INVALID_MEMO(false, 6001,"메모를 찾을 수 없습니다.");
+    INVALID_MEMO(false, 6001,"메모를 찾을 수 없습니다."),
+    RESPONSE_FAILURE(false, 6002, "AI 생성에 실패했습니다.");
 
     // BaseResponseStatus Mapping
     private final boolean isSuccess;
