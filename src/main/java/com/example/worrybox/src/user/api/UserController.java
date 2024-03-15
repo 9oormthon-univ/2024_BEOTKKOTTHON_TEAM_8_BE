@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @Api(tags = "회원가입 및 로그인")
-@RequestMapping("")
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -37,7 +37,7 @@ public class UserController {
         @ApiResponse(responseCode = "4001", description = "중복된 이름입니다"),
         @ApiResponse(responseCode = "4002", description = "비밀번호는 6자리여야 합니다")
     })
-    @PostMapping("/users/join")
+    @PostMapping("/join")
     public BaseResponse<PostJoinRes> join(@RequestBody PostJoinReq postJoinReq) {
         try {
             String name = postJoinReq.getName();
@@ -70,7 +70,7 @@ public class UserController {
                 content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
             @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다.")
     })
-    @PostMapping("/users/{userId}/time-setting")
+    @PostMapping("/{userId}/time-setting")
     public BaseResponse<Long> timeSetting(@PathVariable Long userId, @Valid @RequestBody PostTimeReq postTimeReq) {
         try {
             // 제대로 들어왔다면 다음 진행

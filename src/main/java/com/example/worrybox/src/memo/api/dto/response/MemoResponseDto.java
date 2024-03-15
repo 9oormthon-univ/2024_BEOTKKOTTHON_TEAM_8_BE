@@ -23,4 +23,8 @@ public class MemoResponseDto {
     @NotNull
     @ApiModelProperty("생성 날짜")
     private Timestamp createdAt;
+
+    @NotNull
+    @ApiModelProperty("메모 고유 키")
+    private Long id;
 }

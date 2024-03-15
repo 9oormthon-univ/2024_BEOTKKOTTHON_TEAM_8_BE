@@ -13,6 +13,7 @@ public enum BaseResponseStatus {
     INVALID_HEADER(false, 401, "헤더 없음 or 토큰 불일치"),
 
     /** User **/
+    BASE_INVALID_USER(false, 4000, "유저가 존재하지 않습니다."),
     JOIN_INVALID_NAME(false, 4001, "중복된 이름입니다."),
     JOIN_INVALID_PASSWORD(false, 4002, "비밀번호는 6자리여야 합니다."),
 
@@ -22,7 +23,9 @@ public enum BaseResponseStatus {
     /** Memo **/
     INVALID_USER(false, 6000,"유저로 메모를 찾을 수 없습니다."),
     INVALID_MEMO(false, 6001,"메모를 찾을 수 없습니다."),
+    RESPONSE_FAILURE(false, 6002, "AI 생성에 실패했습니다."),
 
+    /** 기타 **/
     WRONG_STATUS_CODE(false, 5000, "존재하지 않은 상태코드입니다."),
     INVALID_PARAMETERS(false, 400, "입력값이 잘못되었습니다.");
 
