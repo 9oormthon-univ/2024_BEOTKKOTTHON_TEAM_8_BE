@@ -1,4 +1,4 @@
-package com.example.worrybox.utils;
+package com.example.worrybox.utils.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
