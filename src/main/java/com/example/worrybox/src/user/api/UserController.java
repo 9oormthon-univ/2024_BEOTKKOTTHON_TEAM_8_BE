@@ -33,10 +33,9 @@ public class UserController {
         @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
         @ApiResponse(responseCode = "400", description = "헤더 없음 or 토큰 불일치",
                 content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
-        @ApiResponse(responseCode = "4000", description = "보관함 이름이 필요합니다"),
-        @ApiResponse(responseCode = "4001", description = "보관함 비밀번호가 필요합니다"),
-        @ApiResponse(responseCode = "4002", description = "중복된 이름입니다"),
-        @ApiResponse(responseCode = "4003", description = "비밀번호는 6자리여야 합니다")
+        @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다."),
+        @ApiResponse(responseCode = "4001", description = "중복된 이름입니다"),
+        @ApiResponse(responseCode = "4002", description = "비밀번호는 6자리여야 합니다")
     })
     @PostMapping("/users/join")
     public BaseResponse<PostJoinRes> join(@RequestBody PostJoinReq postJoinReq) {
@@ -58,9 +57,7 @@ public class UserController {
     }
 
     public BaseResponseStatus isJoinValid(String name, int password) {
-        if(name.isBlank()) return BaseResponseStatus.JOIN_EMPTY_NAME;  // 이름이 비어있는지 확인
         if((int)( Math.log10(password) + 1) != 6) return BaseResponseStatus.JOIN_INVALID_PASSWORD;
-
         return BaseResponseStatus.SUCCESS;
     }
 
@@ -69,8 +66,9 @@ public class UserController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "회원가입/로그인을 성공했습니다"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
-            @ApiResponse(responseCode = "400", description = "헤더 없음 or 토큰 불일치",
-                    content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
+                content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
+            @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다.")
     })
     @PostMapping("/users/{userId}/time-setting")
     public BaseResponse<Long> timeSetting(@PathVariable Long userId, @Valid @RequestBody PostTimeReq postTimeReq) {
