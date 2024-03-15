@@ -13,9 +13,11 @@ public enum BaseResponseStatus {
     INVALID_HEADER(false, 401, "헤더 없음 or 토큰 불일치"),
 
     /** User **/
-    BASE_INVALID_USER(false, 4000, "유저가 존재하지 않습니다."),
+    BASE_INVALID_USER(false, 4000, "존재하지 않는 유저입니다."),
     JOIN_INVALID_NAME(false, 4001, "중복된 이름입니다."),
     JOIN_INVALID_PASSWORD(false, 4002, "비밀번호는 6자리여야 합니다."),
+    JOIN_EXIST_USER(false, 4003, "이미 회원가입된 유저입니다."),
+
 
     /** Letter **/
 
