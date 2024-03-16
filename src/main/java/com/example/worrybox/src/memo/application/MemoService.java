@@ -50,9 +50,11 @@ public class MemoService {
     // 메모 조회
     @Transactional(readOnly = true)
     public List<MemoResponseDto> memoList(Long userId) {
-        List<Memo> memos = memoRepository.findByUserId(userId)
-                .orElseThrow(()
-                        -> new EntityNotFoundException("Memo", new Exception("userId로 memo들을 찾을 수 없습니다.")));
+        List<Memo> memos = memoRepository.findByUserId(userId);
+
+        if (memos.isEmpty()) {
+            throw new EntityNotFoundException("Memo", new Exception("userId로 memo들을 찾을 수 없습니다."));
+        }
 
         List<MemoResponseDto> memoResponseDtos = new ArrayList<>(); // 반환할 값
 
