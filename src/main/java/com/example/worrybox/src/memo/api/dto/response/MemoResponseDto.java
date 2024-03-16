@@ -4,6 +4,7 @@ import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
 import com.example.worrybox.src.memo.domain.Memo;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.utils.entity.Status;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
@@ -15,15 +16,18 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 public class MemoResponseDto {
 
+    @Schema(description = "걱정 메모 내용", example = "너무 힘들어요.")
     @NotNull
     private String worryText;
 
+    @Schema(description = "걱정 메모 해결책", example = "뭐뭐 때문인 거 같다. 이렇게 해야겠다!")
     @NotNull
     private String solution;
 
     @NotNull
     private Timestamp updateAt;
 
+    @Schema(description = "메모 아이디", example = "1")
     @NotNull
     private Long memoId;
 
