@@ -31,11 +31,11 @@ public class LetterService {
             throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
         }
 
-        for(Letter letter : letterRepository.findAll()) {
-            System.out.println(letter.getUser());
-            System.out.println(letter.getLetter_text());
-            System.out.println(letter.getArrival_date());
-        }
+//        for(Letter letter : letterRepository.findAll()) {
+//            System.out.println(letter.getUser());
+//            System.out.println(letter.getLetter_text());
+//            System.out.println(letter.getArrival_date());
+//        }
 
         User user = userById.get();
         String letter = letterReq.getLetter(), arrivalTime = letterReq.getArrivalDate();
@@ -51,4 +51,14 @@ public class LetterService {
 
          return date;
     }
+
+//    public List<> getLetter(Long userId) throws BaseException {
+//        Optional<User> userById = userRepository.findByIdAndStatus(userId, Status.A);
+//        if(userById.isEmpty()) {  // 존재하지 않는 유저 에러 발생
+//            throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
+//        }
+//
+//
+//        return newLetter.getId();
+//    }
 }
