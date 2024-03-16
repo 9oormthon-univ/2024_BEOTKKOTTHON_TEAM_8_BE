@@ -41,6 +41,8 @@ public class User extends BaseEntity {
         return User.builder()
                 .name(postJoinReq.getName())
                 .password(postJoinReq.getPassword())
+                .worry_start_time(postJoinReq.getStartTime())
+                .worry_end_time(postJoinReq.getEndTime())
                 .status(Status.A)
                 .build();
     }
