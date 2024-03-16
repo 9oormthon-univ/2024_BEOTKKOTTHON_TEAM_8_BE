@@ -12,6 +12,7 @@ import com.example.worrybox.utils.entity.Status;
 import com.example.worrybox.utils.execption.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,7 +42,11 @@ public class CheeringMessageService {
     // 응원 메세지 조회
     @Transactional(readOnly = true)
     public List<CheeringMessageResponseDto> cheeringMessageList(){
-        List<CheeringMessage>cheeringMessages = cheeringMessageRepository.findAll();
+        Pageable topTen = PageRequest.of(
+                0, 10, Sort.by("createdAt").descending());
+        // 생성일 기준 가장 최근 10개만 가져오기
+
+        List<CheeringMessage> cheeringMessages = cheeringMessageRepository.findAll(topTen).getContent();
         List<CheeringMessageResponseDto> cheeringMessageResponseDtos = new ArrayList<>();
 
         for (CheeringMessage cheeringMessage :  cheeringMessages){
