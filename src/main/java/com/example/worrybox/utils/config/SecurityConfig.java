@@ -30,12 +30,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-                        .requestMatchers("/h2-console/**").permitAll() // H2 콘솔 접근 허용
+                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/**").permitAll() // 모두 허용
+                        .anyRequest().authenticated()// H2 콘솔 접근 허용
                 )
                 .cors(cors -> cors.configurationSource(configurationSource()))
-//                .headers(headers -> headers.frameOptions().disable()) // H2 콘솔 iframe 오류 방지
                 .build();
+
     }
 
     @Bean

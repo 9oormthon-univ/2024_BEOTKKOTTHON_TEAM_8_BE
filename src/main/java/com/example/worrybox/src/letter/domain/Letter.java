@@ -1,6 +1,5 @@
 package com.example.worrybox.src.letter.domain;
 
-import com.example.worrybox.src.user.api.dto.request.PostJoinReq;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.utils.entity.BaseEntity;
 import com.example.worrybox.utils.entity.Status;
@@ -10,6 +9,8 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Getter
@@ -25,11 +26,13 @@ public class Letter extends BaseEntity {
     private User user;
     @NotBlank
     private String letter_text;
-    @NotBlank
-    private Timestamp arrival_date;
+    private Date arrival_date;
 
-    public static Letter of(PostJoinReq postJoinReq) {
+    public static Letter of(User user, String letter, Date arrivalDate) {
         return Letter.builder()
+                .user(user)
+                .letter_text(letter)
+                .arrival_date(arrivalDate)
                 .status(Status.A)
                 .build();
     }
