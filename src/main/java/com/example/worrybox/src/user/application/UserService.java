@@ -2,6 +2,7 @@ package com.example.worrybox.src.user.application;
 
 import com.example.worrybox.src.user.api.dto.request.PostJoinReq;
 import com.example.worrybox.src.user.api.dto.request.PostLoginReq;
+import com.example.worrybox.src.user.api.dto.response.PostLoginRes;
 import com.example.worrybox.src.user.api.dto.response.PostUserRes;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.src.user.domain.repository.UserRepository;
@@ -48,14 +49,17 @@ public class UserService {
     }
 
     @Transactional
-    public PostUserRes login(PostLoginReq userReq) throws BaseException {
+    public PostLoginRes login(PostLoginReq userReq) throws BaseException {
         String name = userReq.getName();
         int password = userReq.getPassword();
 
         Optional<User> userByName = userRepository.findByNameAndPasswordAndStatus(name, password, Status.A);
         if(userByName.isPresent()) {  // 해당 계정이 있는 경우 로그인 진행
             User existingUser = userByName.get();
-            return new PostUserRes(existingUser.getId());
+            Long id = existingUser.getId();
+            String startTime = existingUser.getWorry_start_time(), endTime = existingUser.getWorry_end_time();
+
+            return new PostLoginRes(id, startTime, endTime);
         } else {  // 존재하지 않는 유저 에러 발생
             throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
         }
