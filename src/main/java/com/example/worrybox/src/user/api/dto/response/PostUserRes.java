@@ -3,12 +3,10 @@ package com.example.worrybox.src.user.api.dto.response;
 import lombok.Getter;
 
 @Getter
-public class PostJoinRes {
+public class PostUserRes {
     Long userId;
-    boolean login;
 
-    public PostJoinRes(Long userId, boolean login) {
+    public PostUserRes(Long userId) {
         this.userId = userId;
-        this.login = login;
     }
 }

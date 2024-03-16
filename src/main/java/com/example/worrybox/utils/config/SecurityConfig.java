@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 
 import java.util.List;
 import java.util.TimeZone;
@@ -29,10 +30,13 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sessionManagement -> sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/h2-console/**").permitAll()
                         .requestMatchers("/**").permitAll() // 모두 허용
+                        .anyRequest().authenticated()// H2 콘솔 접근 허용
                 )
                 .cors(cors -> cors.configurationSource(configurationSource()))
                 .build();
+
     }
 
     @Bean
