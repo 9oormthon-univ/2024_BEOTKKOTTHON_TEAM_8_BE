@@ -26,7 +26,7 @@ public class UserController {
     /* 중복 체크 API */
     @Operation(summary = "닉네임 중복 체크", description="닉네임 중복체크를 진행합니다")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "회원가입/로그인을 성공했습니다"),
+            @ApiResponse(responseCode = "200", description = "사용 가능한 닉네임입니다"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
             @ApiResponse(responseCode = "400", description = "헤더 없음 or 토큰 불일치",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
