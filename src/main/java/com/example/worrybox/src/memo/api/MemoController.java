@@ -81,7 +81,8 @@ public class MemoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "메모 삭제를 성공했습니다"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
-            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치"),
+            @ApiResponse(responseCode = "6001", description = "메모를 찾을 수 없습니다.",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
     @PatchMapping("/{userId}")
@@ -119,7 +120,8 @@ public class MemoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "걱정 시간 늘리기를 성공했습니다"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
-            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치"),
+            @ApiResponse(responseCode = "6003", description = "메모가 존재하지 않습니다.",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
     @PostMapping("/{memoId}/time-setting")
