@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -38,12 +40,24 @@ public class LetterController {
     @PostMapping("/{userId}")
     public BaseResponse<Long> sendLetter(@PathVariable Long userId, @Valid @RequestBody PostLetterReq postLetterReq) {
         try {
+            if(!checkDate(postLetterReq.getArrivalDate())) {
+                return new BaseResponse<>(BaseResponseStatus.LETTER_INVALID_DATE);
+            }
+
             return new BaseResponse<>(letterService.sendLetter(userId, postLetterReq));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         } catch (ParseException e) {
             return new BaseResponse<>(BaseResponseStatus.INVALID_PARAMETERS);
         }
+    }
+
+    public boolean checkDate(String arrivalDate) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date arrival = formatter.parse(arrivalDate);
+        Date now = new Date();
+
+        return arrival.after(now);
     }
 
     /* 미래의 나에게로 보내는 편지 리스트 반환 */
