@@ -35,7 +35,7 @@ public class MemoController {
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
     @PostMapping("/{userId}")
-    public BaseResponse<String> writeMemo(@RequestBody @Validated MemoRequestDto memoRequestDto, @PathVariable Long userId) {
+    public BaseResponse<MemoResponseDto> writeMemo(@RequestBody @Validated MemoRequestDto memoRequestDto, @PathVariable Long userId) {
         try {
             String memo = memoRequestDto.getWorryText();
 

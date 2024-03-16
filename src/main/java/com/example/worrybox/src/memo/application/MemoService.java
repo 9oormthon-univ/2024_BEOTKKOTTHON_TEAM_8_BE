@@ -36,15 +36,14 @@ public class MemoService {
 
     // 메모 작성
     @Transactional
-    public String writeMemo(Long userId, MemoRequestDto memoRequestDto) throws BaseException {
+    public MemoResponseDto writeMemo(Long userId, MemoRequestDto memoRequestDto) throws BaseException {
         User user = userRepository.findById(userId)
                 .orElseThrow(()
                         -> new EntityNotFoundException("User", new Exception("user를 찾을 수 없습니다.")));
 
         Memo memo = Memo.of(user, memoRequestDto);
-
         memoRepository.save(memo);
-        return memo.getWorryText();
+        return MemoResponseDto.from(memo);
     }
 
     // 메모 조회
@@ -61,10 +60,10 @@ public class MemoService {
         for (Memo memo : memos) {
             if (memo.getStatus() == Status.A) {
                 MemoResponseDto memoResponseDto = MemoResponseDto.builder()
-                        .createdAt(memo.getCreatedAt())
+                        .updateAt(memo.getUpdatedAt())
                         .worryText(memo.getWorryText())
                         .solution(memo.getSolution())
-                        .id(memo.getId())
+                        .memoId(memo.getId())
                         .build();
 
                 memoResponseDtos.add(memoResponseDto);
@@ -73,7 +72,7 @@ public class MemoService {
         return memoResponseDtos;
     }
 
-    // 메모 수정
+    // 메모 삭제
     @Transactional
     public Status deleteMemo(Long memoId) {
         Memo memo = memoRepository.findById(memoId)
@@ -121,7 +120,9 @@ public class MemoService {
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(()
                         -> new EntityNotFoundException("Memo", new Exception("userId로 memo들을 찾을 수 없습니다.")));
-
+        if(memo.getStatus()==Status.D){
+            throw new EntityNotFoundException("Memo", new Exception("삭제된 메모입니다."));
+        }
         TimeResponseDto timeResponseDto = TimeResponseDto.builder()
                 .updatedAt(Timestamp.from(Instant.now()))
                 .build();
