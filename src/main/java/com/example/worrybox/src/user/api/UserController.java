@@ -3,6 +3,7 @@ package com.example.worrybox.src.user.api;
 import com.example.worrybox.src.user.api.dto.request.PostJoinReq;
 import com.example.worrybox.src.user.api.dto.request.PostLoginReq;
 import com.example.worrybox.src.user.api.dto.request.PostNameReq;
+import com.example.worrybox.src.user.api.dto.response.PostLoginRes;
 import com.example.worrybox.src.user.api.dto.response.PostUserRes;
 import com.example.worrybox.src.user.application.UserService;
 import com.example.worrybox.utils.config.BaseException;
@@ -84,7 +85,7 @@ public class UserController {
             @ApiResponse(responseCode = "4002", description = "비밀번호는 6자리여야 합니다."),
     })
     @PostMapping("/login")
-    public BaseResponse<PostUserRes> login(@Valid @RequestBody PostLoginReq postLoginReq) {
+    public BaseResponse<PostLoginRes> login(@Valid @RequestBody PostLoginReq postLoginReq) {
         try {
             String name = postLoginReq.getName();
             int password = postLoginReq.getPassword();
