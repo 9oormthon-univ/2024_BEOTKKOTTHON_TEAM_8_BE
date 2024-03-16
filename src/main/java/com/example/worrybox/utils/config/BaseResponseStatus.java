@@ -20,6 +20,7 @@ public enum BaseResponseStatus {
 
 
     /** Letter **/
+    LETTER_INVALID_DATE(false, 5000, "편지 도착 날짜는 오늘 날짜보다 이후여야 합니다."),
 
 
     /** Memo **/
