@@ -104,7 +104,7 @@ public class UserController {
     }
 
     public BaseResponseStatus isJoinValid(String name, int password) {
-        if((int)( Math.log10(password) + 1) != 6) return BaseResponseStatus.JOIN_INVALID_PASSWORD;
+        if((int)( Math.log10(password) + 1) != 4) return BaseResponseStatus.JOIN_INVALID_PASSWORD;
         return BaseResponseStatus.SUCCESS;
     }
 

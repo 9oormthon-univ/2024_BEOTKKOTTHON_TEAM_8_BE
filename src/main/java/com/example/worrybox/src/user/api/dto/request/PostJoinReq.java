@@ -12,9 +12,9 @@ public class PostJoinReq {
     @NotBlank(message="이름을 입력해야 합니다.")
     @Schema(description = "보관함 이름", example = "ㅇㅇ의 보관함")
     String name;
-    @Min(value = 100000, message = "비밀번호는 6자리여야 합니다.")
-    @Max(value = 999999, message = "비밀번호는 6자리여야 합니다.")
-    @Schema(description = "보관함 비밀번호", example = "123456")
+    @Min(value = 1000, message = "비밀번호는 4자리여야 합니다.")
+    @Max(value = 9999, message = "비밀번호는 4자리여야 합니다.")
+    @Schema(description = "보관함 비밀번호", example = "1234")
     int password;
     @NotBlank(message="걱정 시작 시간을 입력해야 합니다.")
     @Pattern(regexp = "^([01]?[0-9]|2[0-3]):[0-5][0-9]$", message = "걱정 시간 형식은 0:00입니다")
