@@ -4,29 +4,24 @@ import com.example.worrybox.src.memo.api.dto.request.AiRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
 import com.example.worrybox.src.memo.api.dto.response.AiResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
+import com.example.worrybox.src.memo.api.dto.response.TimeResponseDto;
 import com.example.worrybox.src.memo.application.MemoService;
 import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.config.BaseResponse;
 import com.example.worrybox.utils.config.BaseResponseStatus;
 import com.example.worrybox.utils.entity.Status;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "걱정 메모")
 @RequestMapping("/memos")
 public class MemoController {
     private final MemoService memoService;
@@ -109,12 +104,31 @@ public class MemoController {
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
     @PostMapping("/ai")
-    public BaseResponse<AiResponseDto> advice(@RequestBody AiRequestDto aiRequestDto){
+    public BaseResponse<AiResponseDto> advice(@RequestBody @Validated AiRequestDto aiRequestDto){
         try{
             return new BaseResponse<>(memoService.askForAdvice(aiRequestDto));
         }
         catch (Exception e){
             BaseResponseStatus status = BaseResponseStatus.RESPONSE_FAILURE;
+            return new BaseResponse<>(status);
+        }
+    }
+
+    // 시간 늘려주기
+    @Operation(summary = "시간 늘려주기", description = "걱정 시간을 늘려줍니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "걱정 시간 늘리기를 성공했습니다"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
+                    content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
+    })
+    @PostMapping("/{memoId}/time-setting")
+    public BaseResponse<TimeResponseDto> extendTimeSetting(@PathVariable Long memoId){
+        try{
+            return new BaseResponse<>(memoService.extendTime(memoId));
+        }
+        catch (Exception e){
+            BaseResponseStatus status = BaseResponseStatus.FAILED_EXTEND_TIME;
             return new BaseResponse<>(status);
         }
     }

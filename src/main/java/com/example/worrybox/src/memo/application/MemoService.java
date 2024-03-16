@@ -4,6 +4,7 @@ import com.example.worrybox.src.memo.api.dto.request.AiRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
 import com.example.worrybox.src.memo.api.dto.response.AiResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
+import com.example.worrybox.src.memo.api.dto.response.TimeResponseDto;
 import com.example.worrybox.src.memo.domain.Memo;
 import com.example.worrybox.src.memo.domain.repository.MemoRepository;
 import com.example.worrybox.src.user.domain.User;
@@ -19,6 +20,8 @@ import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,7 +78,7 @@ public class MemoService {
                 .orElseThrow(()
                         -> new EntityNotFoundException("Memo", new Exception("memo를 찾을 수 없습니다.")));
 
-        memo.setStatus(Status.D);
+        memo.updateStatus(Status.D);
         return memo.getStatus();
     }
 
@@ -97,12 +100,31 @@ public class MemoService {
     private ChatResponse callChat(String question) {
         return chatClient.call(
                 new Prompt(
-                        (question + "너는 조언가야. 지금 질문에 대해 조언을 반말로 공감하고 해결책을 100자 이하로 말해줘"),
+                        (question +
+                                ". 너는 조언가야. " +
+                                "지금 걱정에 대해 공감하고 해결책을 반말로 친구처럼 조언해줘." +
+                                "50자 이하로 말해줘. " +
+                                "총 3문장 정도로 말해줘."),
                         OpenAiChatOptions.builder()
                                 .withTemperature(0.4F)
                                 .withFrequencyPenalty(0.7F)
                                 .withModel("gpt-3.5-turbo")
                                 .build()
                 ));
+    }
+
+    // 시간 늘려주기
+    @Transactional
+    public TimeResponseDto extendTime(Long memoId){
+        Memo memo = memoRepository.findById(memoId)
+                .orElseThrow(()
+                        -> new EntityNotFoundException("Memo", new Exception("userId로 memo들을 찾을 수 없습니다.")));
+
+        TimeResponseDto timeResponseDto = TimeResponseDto.builder()
+                .updatedAt(Timestamp.from(Instant.now()))
+                .build();
+
+        memo.updateTime(timeResponseDto.getUpdatedAt());
+        return timeResponseDto;
     }
 }

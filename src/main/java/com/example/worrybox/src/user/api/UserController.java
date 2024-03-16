@@ -7,7 +7,6 @@ import com.example.worrybox.src.user.application.UserService;
 import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.config.BaseResponse;
 import com.example.worrybox.utils.config.BaseResponseStatus;
-import io.swagger.annotations.Api;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@Api(tags = "회원가입 및 로그인")
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
