@@ -26,9 +26,9 @@ public class Letter extends BaseEntity {
     private User user;
     @NotBlank
     private String letter_text;
-    private Date arrival_date;
+    private String arrival_date;
 
-    public static Letter of(User user, String letter, Date arrivalDate) {
+    public static Letter of(User user, String letter, String arrivalDate) {
         return Letter.builder()
                 .user(user)
                 .letter_text(letter)
