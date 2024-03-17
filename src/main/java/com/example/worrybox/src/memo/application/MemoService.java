@@ -136,9 +136,8 @@ public class MemoService {
     // 3일 지난 걱정 메모 개수
     public CountResponseDto count(){
         Timestamp threeDaysAgo = Timestamp.
-                valueOf(LocalDateTime.now().minusMinutes(1)); // 시간 입력 ex) 현재 1분 지나면 count 됨.
-        List<Memo> memos = memoRepository.findByUpdatedAtBefore(threeDaysAgo);
-
+                valueOf(LocalDateTime.now().minusMinutes(1)); // 시간 입력 ex) 1분 지나면 count 됨.
+        List<Memo> memos = memoRepository.findByUpdatedAtBeforeAndStatus(threeDaysAgo, Status.A);
         int count = memos.size();
         return CountResponseDto.createCount(count);
     }
