@@ -3,6 +3,7 @@ package com.example.worrybox.src.letter.api;
 import com.example.worrybox.src.letter.api.dto.request.PostLetterReq;
 import com.example.worrybox.src.letter.api.dto.response.GetArriveRes;
 import com.example.worrybox.src.letter.api.dto.response.GetLettersRes;
+import com.example.worrybox.src.letter.api.dto.response.PostLetterRes;
 import com.example.worrybox.src.letter.application.LetterService;
 import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.config.BaseResponse;
@@ -58,13 +59,14 @@ public class LetterController {
             @ApiResponse(responseCode = "4000", description = "존재하지 않는 유저입니다.")
     })
     @PostMapping("/{userId}")
-    public BaseResponse<Long> sendLetter(@PathVariable Long userId, @Valid @RequestBody PostLetterReq postLetterReq) {
+    public BaseResponse<PostLetterRes> sendLetter(@PathVariable Long userId, @Valid @RequestBody PostLetterReq postLetterReq) {
         try {
             if(!checkDate(postLetterReq.getArrivalDate())) {
                 return new BaseResponse<>(BaseResponseStatus.LETTER_INVALID_DATE);
             }
 
-            return new BaseResponse<>(letterService.sendLetter(userId, postLetterReq));
+            PostLetterRes letterRes = new PostLetterRes(letterService.sendLetter(userId, postLetterReq));
+            return new BaseResponse<>(letterRes);
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         } catch (ParseException e) {
