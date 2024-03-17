@@ -1,6 +1,7 @@
-package com.example.worrybox.src.letter.domain;
+package com.example.worrybox.src.letter.domain.repository;
 
 import com.example.worrybox.src.letter.api.dto.response.GetLettersRes;
+import com.example.worrybox.src.letter.domain.Letter;
 import com.example.worrybox.utils.entity.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,4 +30,9 @@ public interface LetterRepository  extends JpaRepository<Letter, Long> {
 //            "   where l.user.id=:userId and l.status = 'A' and l.arrival_date=:date" +
 //            "   order by l.createdAt")
 //    List<GetLettersRes> findAllLetters(@Param("userId") Long userId, @Param("date") String date);
+
+    @Query("select l.id as letterI from Letter as l" +
+            "   where l.user.id=:userId and l.status = 'A' and l.arrival_date=:date" +
+            "   order by l.createdAt")
+    List<GetLetterId> findTodayLetters(@Param("userId") Long userId, @Param("date") String date);
 }
