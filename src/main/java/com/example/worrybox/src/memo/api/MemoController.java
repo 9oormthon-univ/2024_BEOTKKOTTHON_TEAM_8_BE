@@ -137,7 +137,7 @@ public class MemoController {
     }
 
     // 3일 지난 걱정 메모 개수
-    @Operation(summary = "3일 지난 걱정 메모 개수", description = "3이 지난 걱정 메모 개수를 보여줍니다.")
+    @Operation(summary = "3일 지난 걱정 메모 개수", description = "3일이 지난 걱정 메모 개수를 보여줍니다.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "개수 반환에 성공했습니다"),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
