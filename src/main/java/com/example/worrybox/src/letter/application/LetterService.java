@@ -3,7 +3,8 @@ package com.example.worrybox.src.letter.application;
 import com.example.worrybox.src.letter.api.dto.request.PostLetterReq;
 import com.example.worrybox.src.letter.api.dto.response.GetLettersRes;
 import com.example.worrybox.src.letter.domain.Letter;
-import com.example.worrybox.src.letter.domain.LetterRepository;
+import com.example.worrybox.src.letter.domain.repository.GetLetterId;
+import com.example.worrybox.src.letter.domain.repository.LetterRepository;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.src.user.domain.repository.UserRepository;
 import com.example.worrybox.utils.config.BaseException;
@@ -25,6 +26,19 @@ import java.util.Optional;
 public class LetterService {
     private final UserRepository userRepository;
     private final LetterRepository letterRepository;
+
+    public Boolean checkLetter(Long userId) throws BaseException {
+        Optional<User> userById = userRepository.findByIdAndStatus(userId, Status.A);
+        if(userById.isEmpty()) {  // 존재하지 않는 유저 에러 발생
+            throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
+        }
+
+        String today = getDate();
+        System.out.println(today);
+        List<GetLetterId> letter = letterRepository.findTodayLetters(userId, today);
+
+        return !letter.isEmpty();
+    }
 
     @Transactional
     public Long sendLetter(Long userId, PostLetterReq letterReq) throws BaseException, ParseException {
