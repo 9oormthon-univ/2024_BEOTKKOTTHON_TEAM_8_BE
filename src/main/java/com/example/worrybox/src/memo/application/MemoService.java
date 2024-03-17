@@ -3,6 +3,7 @@ package com.example.worrybox.src.memo.application;
 import com.example.worrybox.src.memo.api.dto.request.AiRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
 import com.example.worrybox.src.memo.api.dto.response.AiResponseDto;
+import com.example.worrybox.src.memo.api.dto.response.CountResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.TimeResponseDto;
 import com.example.worrybox.src.memo.domain.Memo;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,5 +131,15 @@ public class MemoService {
 
         memo.updateTime(timeResponseDto.getUpdatedAt());
         return timeResponseDto;
+    }
+
+    // 3일 지난 걱정 메모 개수
+    public CountResponseDto count(){
+        Timestamp threeDaysAgo = Timestamp.
+                valueOf(LocalDateTime.now().minusMinutes(1)); // 시간 입력 ex) 현재 1분 지나면 count 됨.
+        List<Memo> memos = memoRepository.findByUpdatedAtBefore(threeDaysAgo);
+
+        int count = memos.size();
+        return CountResponseDto.createCount(count);
     }
 }

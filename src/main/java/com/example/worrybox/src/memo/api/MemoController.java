@@ -3,6 +3,7 @@ package com.example.worrybox.src.memo.api;
 import com.example.worrybox.src.memo.api.dto.request.AiRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
 import com.example.worrybox.src.memo.api.dto.response.AiResponseDto;
+import com.example.worrybox.src.memo.api.dto.response.CountResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.TimeResponseDto;
 import com.example.worrybox.src.memo.application.MemoService;
@@ -131,6 +132,25 @@ public class MemoController {
         }
         catch (Exception e){
             BaseResponseStatus status = BaseResponseStatus.FAILED_EXTEND_TIME;
+            return new BaseResponse<>(status);
+        }
+    }
+
+    // 3일 지난 걱정 메모 개수
+    @Operation(summary = "3일 지난 걱정 메모 개수", description = "3이 지난 걱정 메모 개수를 보여줍니다.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "개수 반환에 성공했습니다"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
+                    content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
+    })
+    @GetMapping("/count")
+    public BaseResponse<CountResponseDto> count(){
+        try{
+            return new BaseResponse<>(memoService.count());
+        }
+        catch (Exception e){
+            BaseResponseStatus status = BaseResponseStatus.FAILED_COUNT;
             return new BaseResponse<>(status);
         }
     }
