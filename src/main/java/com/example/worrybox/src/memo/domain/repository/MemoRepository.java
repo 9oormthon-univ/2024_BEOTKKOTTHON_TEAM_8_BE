@@ -13,6 +13,6 @@ import java.util.Optional;
 public interface MemoRepository extends JpaRepository<Memo,Long> {
     List<Memo> findByUserId(Long userId);
 
-    List<Memo> findByUpdatedAtBeforeAndStatus(Timestamp dateTime, Status status);
+    List<Memo> findByUpdatedAtBeforeAndStatusAndUser(Timestamp dateTime, Status status, User user);
 
 }

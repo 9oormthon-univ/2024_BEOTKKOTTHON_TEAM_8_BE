@@ -139,10 +139,13 @@ public class MemoService {
     }
 
     // 3일 지난 걱정 메모 개수
-    public CountResponseDto count(){
+    public CountResponseDto count(Long userId){
+        User user = userRepository.findById(userId)
+                .orElseThrow(()
+                        -> new EntityNotFoundException("User", new Exception("user를 찾을 수 없습니다.")));
         Timestamp threeDaysAgo = Timestamp.
                 valueOf(LocalDateTime.now().minusMinutes(1)); // 시간 입력 ex) 1분 지나면 count 됨.
-        List<Memo> memos = memoRepository.findByUpdatedAtBeforeAndStatus(threeDaysAgo, Status.A);
+        List<Memo> memos = memoRepository.findByUpdatedAtBeforeAndStatusAndUser(threeDaysAgo, Status.A, user);
         int count = memos.size();
         return CountResponseDto.createCount(count);
     }

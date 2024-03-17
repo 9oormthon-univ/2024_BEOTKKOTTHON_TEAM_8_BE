@@ -144,10 +144,10 @@ public class MemoController {
             @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
-    @GetMapping("/count")
-    public BaseResponse<CountResponseDto> count(){
+    @GetMapping("{userId}/notice")
+    public BaseResponse<CountResponseDto> count(@PathVariable Long userId){
         try{
-            return new BaseResponse<>(memoService.count());
+            return new BaseResponse<>(memoService.count(userId));
         }
         catch (Exception e){
             BaseResponseStatus status = BaseResponseStatus.FAILED_COUNT;
