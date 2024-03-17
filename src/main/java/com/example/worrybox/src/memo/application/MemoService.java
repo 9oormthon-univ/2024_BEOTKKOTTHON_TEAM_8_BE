@@ -24,7 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.temporal.Temporal;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -71,6 +74,8 @@ public class MemoService {
                 memoResponseDtos.add(memoResponseDto);
             }
         }
+        // updateAt 기준으로 오름차순 정렬
+        memoResponseDtos.sort(Comparator.comparing(MemoResponseDto::getUpdateAt));
         return memoResponseDtos;
     }
 
