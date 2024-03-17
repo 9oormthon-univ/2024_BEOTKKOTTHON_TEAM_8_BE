@@ -56,7 +56,8 @@ public class LetterController {
             @ApiResponse(responseCode = "400", description = "헤더 없음 or 토큰 불일치",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
             @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다."),
-            @ApiResponse(responseCode = "4000", description = "존재하지 않는 유저입니다.")
+            @ApiResponse(responseCode = "4000", description = "존재하지 않는 유저입니다."),
+            @ApiResponse(responseCode = "5000", description = "편지 도착 날짜는 오늘 날짜보다 이후여야 합니다.")
     })
     @PostMapping("/{userId}")
     public BaseResponse<PostLetterRes> sendLetter(@PathVariable Long userId, @Valid @RequestBody PostLetterReq postLetterReq) {
