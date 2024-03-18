@@ -17,6 +17,7 @@ public enum BaseResponseStatus {
     JOIN_INVALID_NAME(false, 4001, "중복된 이름입니다."),
     JOIN_INVALID_PASSWORD(false, 4002, "비밀번호는 4자리여야 합니다."),
     JOIN_EXIST_USER(false, 4003, "이미 회원가입된 유저입니다."),
+    JOIN_INVALID_TIME(false, 4004, "걱정 시작 시간은 걱정 마감 시간보다 빨라야합니다"),
 
 
     /** Letter **/
