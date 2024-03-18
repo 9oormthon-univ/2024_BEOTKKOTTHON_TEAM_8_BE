@@ -30,6 +30,7 @@ public class User extends BaseEntity {
 
     private String worry_start_time;
     private String worry_end_time;
+    private String FCM_token;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Memo> Memos = new ArrayList<>();
