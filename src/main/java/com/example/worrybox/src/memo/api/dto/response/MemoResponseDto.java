@@ -25,6 +25,9 @@ public class MemoResponseDto {
     private String solution;
 
     @NotNull
+    private Timestamp createAt;
+
+    @NotNull
     private Timestamp updateAt;
 
     @Schema(description = "메모 아이디", example = "1")
@@ -37,6 +40,7 @@ public class MemoResponseDto {
                 .worryText(memo.getWorryText())
                 .solution(memo.getSolution())
                 .updateAt(memo.getUpdatedAt())
+                .createAt(memo.getUpdatedAt())
                 .memoId(memo.getId())
                 .build();
     }

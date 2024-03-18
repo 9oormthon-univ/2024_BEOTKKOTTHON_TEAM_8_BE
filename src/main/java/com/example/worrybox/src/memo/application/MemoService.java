@@ -65,6 +65,7 @@ public class MemoService {
         for (Memo memo : memos) {
             if (memo.getStatus() == Status.A) {
                 MemoResponseDto memoResponseDto = MemoResponseDto.builder()
+                        .createAt(memo.getCreatedAt())
                         .updateAt(memo.getUpdatedAt())
                         .worryText(memo.getWorryText())
                         .solution(memo.getSolution())
