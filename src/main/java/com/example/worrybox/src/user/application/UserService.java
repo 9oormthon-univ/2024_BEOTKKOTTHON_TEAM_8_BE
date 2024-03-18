@@ -64,19 +64,5 @@ public class UserService {
             throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
         }
     }
-//
-//    @Transactional
-//    public Long timeSetting(Long userId, PostLoginReq timeReq) throws BaseException {
-//        String startTime = timeReq.getStartTime();
-//        String endTime = timeReq.getEndTime();
-//
-//        Optional<User> userById = userRepository.findByIdAndStatus(userId, Status.A);
-//        if(userById.isEmpty()) throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
-//
-//        User user = userById.get();
-//        user.setWorry_start_time(startTime);
-//        user.setWorry_end_time(endTime);
-//
-//        return user.getId();
-//    }
+
 }

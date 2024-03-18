@@ -18,10 +18,10 @@ public class PostJoinReq {
     int password;
     @NotBlank(message="걱정 시작 시간을 입력해야 합니다.")
     @Pattern(regexp = "^(1[0-2]|[1-9]):[0-5][0-9](AM|PM|am|pm)$", message = "걱정 시간 형식은 1:00~12:59(AM/PM)입니다")
-    @Schema(description = "걱정 시작 시간", example = "11:00")
+    @Schema(description = "걱정 시작 시간", example = "11:00AM")
     String startTime;
     @NotBlank(message="걱정 종료 시간을 입력해야 합니다.")
     @Pattern(regexp = "^(1[0-2]|[1-9]):[0-5][0-9](AM|PM|am|pm)$", message = "걱정 시간 형식은 1:00~12:59(AM/PM)입니다")
-    @Schema(description = "걱정 종료 시간", example = "12:00")
+    @Schema(description = "걱정 종료 시간", example = "12:00PM")
     String endTime;
 }
