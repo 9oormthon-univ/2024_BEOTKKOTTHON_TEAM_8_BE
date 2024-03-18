@@ -1,5 +1,6 @@
 package com.example.worrybox.src.user.api;
 
+import com.example.worrybox.src.user.api.dto.WorryTime;
 import com.example.worrybox.src.user.api.dto.request.PostJoinReq;
 import com.example.worrybox.src.user.api.dto.request.PostLoginReq;
 import com.example.worrybox.src.user.api.dto.request.PostNameReq;
@@ -17,6 +18,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 @RestController
 @RequiredArgsConstructor
@@ -52,7 +57,8 @@ public class UserController {
                 content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
         @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다."),
         @ApiResponse(responseCode = "4001", description = "중복된 이름입니다"),
-        @ApiResponse(responseCode = "4002", description = "비밀번호는 6자리여야 합니다")
+        @ApiResponse(responseCode = "4002", description = "비밀번호는 4자리여야 합니다"),
+        @ApiResponse(responseCode = "4004", description = "걱정 시작 시간은 걱정 마감 시간보다 빨라야합니다")
     })
     @PostMapping("/join")
     public BaseResponse<PostUserRes> join(@Valid @RequestBody PostJoinReq postJoinReq) {
@@ -66,11 +72,29 @@ public class UserController {
                 return new BaseResponse<>(status);
             }
 
+            WorryTime worryTime = timeValid(postJoinReq.getStartTime(), postJoinReq.getEndTime());
+            postJoinReq.setStartTime(worryTime.getStartTime());
+            postJoinReq.setEndTime(worryTime.getEndTime());
+
             // 제대로 들어왔다면 다음 진행
             return new BaseResponse<>(userService.join(postJoinReq));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
+    }
+
+    public WorryTime timeValid(String startTime, String endTime) {
+        // DateTimeFormatter 정의 (AM/PM 포함)
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("h:ma", Locale.US);
+
+        // 문자열 파싱
+        LocalTime start = LocalTime.parse(startTime, formatter);
+        LocalTime end = LocalTime.parse(endTime, formatter);
+
+//        System.out.println("시작 시간: " + start);
+//        System.out.println("끝 시간: " + end);
+
+        return new WorryTime(start.toString(), end.toString());
     }
 
     /* 가입 API */
@@ -82,7 +106,7 @@ public class UserController {
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
             @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다."),
             @ApiResponse(responseCode = "4000", description = "존재하지 않는 유저입니다."),
-            @ApiResponse(responseCode = "4002", description = "비밀번호는 6자리여야 합니다."),
+            @ApiResponse(responseCode = "4002", description = "비밀번호는 4자리여야 합니다."),
     })
     @PostMapping("/login")
     public BaseResponse<PostLoginRes> login(@Valid @RequestBody PostLoginReq postLoginReq) {
@@ -104,7 +128,7 @@ public class UserController {
     }
 
     public BaseResponseStatus isJoinValid(String name, int password) {
-        if((int)( Math.log10(password) + 1) != 4) return BaseResponseStatus.JOIN_INVALID_PASSWORD;
+        if((int)(Math.log10(password) + 1) != 4) return BaseResponseStatus.JOIN_INVALID_PASSWORD;
         return BaseResponseStatus.SUCCESS;
     }
 
