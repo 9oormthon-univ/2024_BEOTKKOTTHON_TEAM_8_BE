@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class FCMController {
     private final FCMService FCMService;
 
-    /* 중복 체크 API */
+    /* FCM Token 서버 저장 API */
     @Operation(summary = "FCM Token 전달", description="유저의 FCM Token을 전달합니다")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "사용 가능한 닉네임입니다"),
@@ -30,7 +30,7 @@ public class FCMController {
             @ApiResponse(responseCode = "4000", description = "존재하지 않는 유저입니다."),
     })
     @PostMapping("/{userId}/token")
-    public BaseResponse<String> nameCheck(@PathVariable Long userId, @Valid @RequestBody PostTokenReq postTokenReq) {
+    public BaseResponse<String> getToken(@PathVariable Long userId, @Valid @RequestBody PostTokenReq postTokenReq) {
         try {
             return new BaseResponse<>(FCMService.getToken(userId, postTokenReq.getToken()));
         } catch (BaseException e) {

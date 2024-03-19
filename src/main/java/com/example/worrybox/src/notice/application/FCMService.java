@@ -32,27 +32,27 @@ public class FCMService {
     }
 
 
-//    @Scheduled(cron = "0 * * * * *")
-//    public void sendMessage() throws InterruptedException, ExecutionException {
-//        System.out.println("실행 되는 중");
-//        List<User> users = userRepository.findAllByStatus(Status.A);
-//        for(User user : users) {
-//            System.out.println("Token :" + user.getId() + " " + user.getFCMToken());
-//            String token = user.getFCMToken();
-//            if(token.isEmpty()) continue;
-//
-//            NotificationRequest notificationRequest = new NotificationRequest(user.getFCMToken(), "FCM Test", "테스트입니다룽");
-//
-//            Message message = Message.builder()
-//                    .setToken(user.getFCMToken())
-//                    .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
-//                            .setNotification(new WebpushNotification(notificationRequest.getTitle(),
-//                                    notificationRequest.getBody()))
-//                            .build())
-//                    .build();
-//
-//            String response = FirebaseMessaging.getInstance().sendAsync(message).get();
-//            System.out.println("Sent message: " + response);
-//        }
-//    }
+    @Scheduled(cron = "0 * * * * *")
+    public void sendMessage() throws InterruptedException, ExecutionException {
+        System.out.println("실행 되는 중");
+        List<User> users = userRepository.findAllByStatus(Status.A);
+        for(User user : users) {
+            System.out.println("Token :" + user.getId() + " " + user.getFCMToken());
+            String token = user.getFCMToken();
+            if(token.isEmpty()) continue;
+
+            NotificationRequest notificationRequest = new NotificationRequest(user.getFCMToken(), "FCM Test", "테스트입니다룽");
+
+            Message message = Message.builder()
+                    .setToken(user.getFCMToken())
+                    .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
+                            .setNotification(new WebpushNotification(notificationRequest.getTitle(),
+                                    notificationRequest.getBody()))
+                            .build())
+                    .build();
+
+            String response = FirebaseMessaging.getInstance().sendAsync(message).get();
+            System.out.println("Sent message: " + response);
+        }
+    }
 }
