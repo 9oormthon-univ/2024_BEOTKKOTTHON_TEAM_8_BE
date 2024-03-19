@@ -31,9 +31,8 @@ public class FCMService {
         return "토큰이 성공적으로 저장되었습니다";
     }
 
-
     @Scheduled(cron = "0 * * * * *")
-    public void sendMessage() throws InterruptedException, ExecutionException {
+    public void sendMessage() throws InterruptedException, ExecutionException, FirebaseMessagingException {
         System.out.println("실행 되는 중");
         List<User> users = userRepository.findAllByStatus(Status.A);
         for(User user : users) {
@@ -43,16 +42,23 @@ public class FCMService {
 
             NotificationRequest notificationRequest = new NotificationRequest(user.getFCMToken(), "FCM Test", "테스트입니다룽");
 
-            Message message = Message.builder()
-                    .setToken(user.getFCMToken())
-                    .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
-                            .setNotification(new WebpushNotification(notificationRequest.getTitle(),
-                                    notificationRequest.getBody()))
+            String message = FirebaseMessaging.getInstance().send(Message.builder()
+                    .setNotification(Notification.builder()
+                            .setTitle("새로운 메시지")
+                            .setBody("안녕하세요, 새로운 메시지가 도착했습니다. 진짜로?")
                             .build())
-                    .build();
+                    .setToken(token)  // 대상 디바이스의 등록 토큰
+                    .build());
 
-            String response = FirebaseMessaging.getInstance().sendAsync(message).get();
-            System.out.println("Sent message: " + response);
+//            Message message = Message.builder()
+//                    .setToken(user.getFCMToken())
+//                    .setWebpushConfig(WebpushConfig.builder().putHeader("ttl", "300")
+//                            .setNotification(new WebpushNotification(notificationRequest.getTitle(),
+//                                    notificationRequest.getBody()))
+//                            .build())
+//                    .build();
+
+            System.out.println("Sent message: " + message);
         }
     }
 }
