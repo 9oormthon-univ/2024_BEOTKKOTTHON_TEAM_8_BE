@@ -38,7 +38,6 @@ public class FCMService {
     }
 
     @Scheduled(cron = "0 0 0 * * *")
-//    @Scheduled(cron = "0 * * * * *")
     public void sendLetterNotice() throws FirebaseMessagingException {
         List<User> users = userRepository.findAllByStatus(Status.A);
         for(User user : users) {
