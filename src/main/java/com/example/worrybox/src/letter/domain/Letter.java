@@ -25,14 +25,14 @@ public class Letter extends BaseEntity {
     @JoinColumn(name = "user_id")
     private User user;
     @NotBlank
-    private String letter_text;
-    private String arrival_date;
+    private String letterText;
+    private String arrivalDate;
 
     public static Letter of(User user, String letter, String arrivalDate) {
         return Letter.builder()
                 .user(user)
-                .letter_text(letter)
-                .arrival_date(arrivalDate)
+                .letterText(letter)
+                .arrivalDate(arrivalDate)
                 .status(Status.A)
                 .build();
     }

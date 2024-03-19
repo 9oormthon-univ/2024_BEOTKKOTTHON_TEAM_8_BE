@@ -57,7 +57,7 @@ public class UserService {
         if(userByName.isPresent()) {  // 해당 계정이 있는 경우 로그인 진행
             User existingUser = userByName.get();
             Long id = existingUser.getId();
-            String startTime = existingUser.getWorry_start_time(), endTime = existingUser.getWorry_end_time();
+            String startTime = existingUser.getWorryStartTime(), endTime = existingUser.getWorryEndTime();
 
             return new PostLoginRes(id, startTime, endTime);
         } else {  // 존재하지 않는 유저 에러 발생
