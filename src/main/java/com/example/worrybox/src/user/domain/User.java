@@ -28,9 +28,9 @@ public class User extends BaseEntity {
     @NotNull
     private int password;
 
-    private String worry_start_time;
-    private String worry_end_time;
-    private String FCM_token;
+    private String worryStartTime;
+    private String worryEndTime;
+    private String FCMToken;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Memo> Memos = new ArrayList<>();
@@ -42,8 +42,8 @@ public class User extends BaseEntity {
         return User.builder()
                 .name(postJoinReq.getName())
                 .password(postJoinReq.getPassword())
-                .worry_start_time(postJoinReq.getStartTime())
-                .worry_end_time(postJoinReq.getEndTime())
+                .worryStartTime(postJoinReq.getStartTime())
+                .worryEndTime(postJoinReq.getEndTime())
                 .status(Status.A)
                 .build();
     }
