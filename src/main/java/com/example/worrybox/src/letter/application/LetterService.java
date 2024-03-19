@@ -42,33 +42,23 @@ public class LetterService {
 
     @Transactional
     public Long sendLetter(Long userId, PostLetterReq letterReq) throws BaseException, ParseException {
-        Optional<User> userById = userRepository.findByIdAndStatus(userId, Status.A);
-        if(userById.isEmpty()) {  // 존재하지 않는 유저 에러 발생
-            throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
-        }
+        // 해당 아이디 가진 유저가 존재하는지 검사
+        User userById = userRepository.findByIdAndStatus(userId, Status.A)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.BASE_INVALID_USER));
 
-//        for(Letter letter : letterRepository.findAll()) {
-//            System.out.println(letter.getUser());
-//            System.out.println(letter.getLetter_text());
-//            System.out.println(letter.getArrival_date());
-//        }
-
-        User user = userById.get();
         String letter = letterReq.getLetter(), arrivalTime = letterReq.getArrivalDate();
-        Letter newLetter = letterRepository.save(Letter.of(user, letter, arrivalTime));
+        Letter newLetter = letterRepository.save(Letter.of(userById, letter, arrivalTime));
 
         return newLetter.getId();
     }
 
     public List<GetLettersRes> getLetter(Long userId) throws BaseException {
-        Optional<User> userById = userRepository.findByIdAndStatus(userId, Status.A);
-        if(userById.isEmpty()) {  // 존재하지 않는 유저 에러 발생
-            throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
-        }
+        // 해당 아이디 가진 유저가 존재하는지 검사
+        userRepository.findByIdAndStatus(userId, Status.A)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.BASE_INVALID_USER));
 
-//        return letterRepository.findAll();
         String today = getDate();
-        System.out.println(today);
+//        System.out.println(today);
 
         return letterRepository.findAllLetters(userId, today);
     }

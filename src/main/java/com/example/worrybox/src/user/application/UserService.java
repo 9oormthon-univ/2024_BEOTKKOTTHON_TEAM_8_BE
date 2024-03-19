@@ -53,16 +53,14 @@ public class UserService {
         String name = userReq.getName();
         int password = userReq.getPassword();
 
-        Optional<User> userByName = userRepository.findByNameAndPasswordAndStatus(name, password, Status.A);
-        if(userByName.isPresent()) {  // 해당 계정이 있는 경우 로그인 진행
-            User existingUser = userByName.get();
-            Long id = existingUser.getId();
-            String startTime = existingUser.getWorryStartTime(), endTime = existingUser.getWorryEndTime();
+        User userByName = userRepository.findByNameAndPasswordAndStatus(name, password, Status.A)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.BASE_INVALID_USER));
 
-            return new PostLoginRes(id, startTime, endTime);
-        } else {  // 존재하지 않는 유저 에러 발생
-            throw new BaseException(BaseResponseStatus.BASE_INVALID_USER);
-        }
+        // 해당 계정이 있는 경우 로그인 진행
+        Long id = userByName.getId();
+        String startTime = userByName.getWorryStartTime(), endTime = userByName.getWorryEndTime();
+
+        return new PostLoginRes(id, startTime, endTime);
     }
 
 }
