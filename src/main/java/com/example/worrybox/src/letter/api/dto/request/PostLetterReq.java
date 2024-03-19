@@ -14,6 +14,6 @@ public class PostLetterReq {
     private String arrivalDate;
     @NotBlank(message = "편지 내용을 입력해야 합니다.")
     @Schema(description = "편지 내용", example = "미래의 나 힘내라")
-    @Size(max = 30, message = "편지는 최대 30글자입니다.")
+    @Size(max = 80, message = "편지는 최대 80글자입니다.")
     private String letter;
 }
