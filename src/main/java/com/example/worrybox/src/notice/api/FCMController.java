@@ -1,8 +1,7 @@
 package com.example.worrybox.src.notice.api;
 
 import com.example.worrybox.src.notice.api.dto.request.PostTokenReq;
-import com.example.worrybox.src.notice.application.NoticeService;
-import com.example.worrybox.src.user.api.dto.request.PostNameReq;
+import com.example.worrybox.src.notice.application.FCMService;
 import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.config.BaseResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,8 +16,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notices")
-public class NoticeController {
-    private final NoticeService noticeService;
+public class FCMController {
+    private final FCMService FCMService;
 
     /* 중복 체크 API */
     @Operation(summary = "FCM Token 전달", description="유저의 FCM Token을 전달합니다")
@@ -33,7 +32,7 @@ public class NoticeController {
     @PostMapping("/{userId}/token")
     public BaseResponse<String> nameCheck(@PathVariable Long userId, @Valid @RequestBody PostTokenReq postTokenReq) {
         try {
-            return new BaseResponse<>(noticeService.getToken(userId, postTokenReq.getToken()));
+            return new BaseResponse<>(FCMService.getToken(userId, postTokenReq.getToken()));
         } catch (BaseException e) {
             return new BaseResponse<>(e.getStatus());
         }
