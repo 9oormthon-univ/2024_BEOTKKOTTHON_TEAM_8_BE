@@ -16,20 +16,20 @@ import java.util.List;
 @EnableJpaRepositories
 public interface LetterRepository  extends JpaRepository<Letter, Long> {
 // MySQL 버전
-    @Query("select l.id as letterId, l.user.id as userId," +
-            "   l.letterText as letter, date_format(l.createdAt, '%Y-%m-%d') as sendDate, l.arrivalDate as arrivalDate" +
-            "   from Letter as l" +
-            "   where l.user.id=:userId and l.status = 'A' and l.arrivalDate<=:date" +
-            "   order by l.arrivalDate desc, l.createdAt asc")
-    List<GetLettersRes> findAllLetters(@Param("userId") Long userId, @Param("date") String date);
-
-// H2 버전
 //    @Query("select l.id as letterId, l.user.id as userId," +
-//            "   l.letterText as letter, FORMATDATETIME(l.createdAt, 'yyyy-MM-dd') as sendDate, l.arrivalDate as arrivalDate" +
+//            "   l.letterText as letter, date_format(l.createdAt, '%Y-%m-%d') as sendDate, l.arrivalDate as arrivalDate" +
 //            "   from Letter as l" +
 //            "   where l.user.id=:userId and l.status = 'A' and l.arrivalDate<=:date" +
 //            "   order by l.arrivalDate desc, l.createdAt asc")
 //    List<GetLettersRes> findAllLetters(@Param("userId") Long userId, @Param("date") String date);
+
+// H2 버전
+    @Query("select l.id as letterId, l.user.id as userId," +
+            "   l.letterText as letter, FORMATDATETIME(l.createdAt, 'yyyy-MM-dd') as sendDate, l.arrivalDate as arrivalDate" +
+            "   from Letter as l" +
+            "   where l.user.id=:userId and l.status = 'A' and l.arrivalDate<=:date" +
+            "   order by l.arrivalDate desc, l.createdAt asc")
+    List<GetLettersRes> findAllLetters(@Param("userId") Long userId, @Param("date") String date);
 
     @Query("select l.id as letterI from Letter as l" +
             "   where l.user.id=:userId and l.status = 'A' and l.arrivalDate=:date" +
