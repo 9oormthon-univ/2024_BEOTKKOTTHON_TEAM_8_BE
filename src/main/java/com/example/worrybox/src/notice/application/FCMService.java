@@ -1,25 +1,36 @@
 package com.example.worrybox.src.notice.application;
 
-import com.example.worrybox.src.notice.api.dto.request.NotificationRequest;
+import com.example.worrybox.src.letter.domain.repository.GetLetterId;
+import com.example.worrybox.src.letter.domain.repository.LetterRepository;
+import com.example.worrybox.src.user.api.dto.WorryTime;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.src.user.domain.repository.UserRepository;
 import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.config.BaseResponseStatus;
 import com.example.worrybox.utils.entity.Status;
-import com.google.firebase.messaging.*;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.FirebaseMessagingException;
+import com.google.firebase.messaging.Message;
+import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
+import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class FCMService {
     private final UserRepository userRepository;
+    private final LetterRepository letterRepository;
 
     @Transactional
     public String getToken(Long userId, String token) throws BaseException {
@@ -31,27 +42,86 @@ public class FCMService {
         return "토큰이 성공적으로 저장되었습니다";
     }
 
-//    @Scheduled(cron = "0 * * * * *")
-//    public void sendMessage() throws FirebaseMessagingException {
-//        System.out.println("실행 되는 중");
-//        List<User> users = userRepository.findAllByStatus(Status.A);
-//        for(User user : users) {
+    @Scheduled(cron = "0 0 0 * * *")
+    public void sendLetterNotice() throws FirebaseMessagingException {
+        List<User> users = userRepository.findAllByStatus(Status.A);
+        for(User user : users) {
 //            System.out.println("Token :" + user.getId() + " " + user.getFCMToken());
-//            String token = user.getFCMToken();
-//
-//            if(token.isEmpty()) continue;
-//
-//            NotificationRequest notificationRequest = new NotificationRequest(user.getFCMToken(), "FCM Test", "테스트입니다룽");
-//
-//            String message = FirebaseMessaging.getInstance().send(Message.builder()
-//                    .setNotification(Notification.builder()
-//                            .setTitle("새로운 메시지")
-//                            .setBody("안녕하세요, 새로운 메시지가 도착했습니다. 진짜로?")
-//                            .build())
-//                    .setToken(token)  // 대상 디바이스의 등록 토큰
-//                    .build());
-//
-//            System.out.println("Sent message: " + message);
-//        }
-//    }
+            String token = user.getFCMToken();
+
+            if(token == null) {
+                continue;
+            }
+
+            List<GetLetterId> letters = letterRepository.findTodayLetters(user.getId(), getDate());
+            if(!letters.isEmpty()) {
+                String title = "오늘의 " + user.getName() + "에게 편지가 도착했어";
+                String body = "걱정 보관함으로 와줘 !";
+
+                sendMessage(token, title, body);
+            }
+        }
+    }
+
+    @Scheduled(cron = "0 * * * * *")
+    public void sendBoxOpenNotice() throws FirebaseMessagingException {
+        List<User> users = userRepository.findAllByStatus(Status.A);
+        for(User user : users) {
+//            System.out.println("Token :" + user.getId() + " " + user.getFCMToken());
+            String token = user.getFCMToken();
+
+            if(token == null) {
+                continue;
+            }
+
+            String startTime = user.getWorryStartTime();
+            String endTime = user.getWorryEndTime();
+            String now = getTime(LocalTime.now());
+
+//            System.out.println(startTime);
+//            System.out.println(endTime);
+//            System.out.println(now);
+
+            if(startTime.equals(now)) {
+                String title = "걱정 시간이 되어 보관함이 열렸어";
+                String body = "걱정 보관함으로 와줘 !";
+
+                sendMessage(token, title, body);
+            }
+
+            if(endTime.equals(now)) {
+                String title = "곧 보관함이 닫혀";
+                String body = "걱정 보관함으로 와줘 !";
+
+                sendMessage(token, title, body);
+            }
+        }
+    }
+
+    public String getTime(LocalTime time) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        return formatter.format(time);
+    }
+
+    public String getDate() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = new Date();
+
+        String date = formatter.format(today);
+        System.out.println(date);
+
+        return date;
+    }
+
+    public void sendMessage(String token, String title, String body) throws FirebaseMessagingException {
+        String message = FirebaseMessaging.getInstance().send(Message.builder()
+                .setNotification(Notification.builder()
+                        .setTitle(title)
+                        .setBody(body)
+                        .build())
+                .setToken(token)  // 대상 디바이스의 등록 토큰
+                .build());
+
+        System.out.println("Sent message: " + message);
+    }
 }
