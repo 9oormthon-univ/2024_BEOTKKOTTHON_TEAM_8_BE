@@ -78,9 +78,9 @@ public class FCMService {
             String endTime = user.getWorryEndTime();
             String now = getTime(LocalTime.now());
 
-            System.out.println("열림 시간 : " + startTime);
-            System.out.println("닫힘 시간 : " + endTime + ", 5분 전 : " + changeTime(endTime));
-            System.out.println("현재 시간 : " + now);
+//            System.out.println("열림 시간 : " + startTime);
+//            System.out.println("닫힘 시간 : " + endTime + ", 5분 전 : " + changeTime(endTime));
+//            System.out.println("현재 시간 : " + now);
 
             if(startTime.equals(now)) {
                 String title = "걱정 시간이 되어 보관함이 열렸어";
@@ -89,12 +89,12 @@ public class FCMService {
                 sendMessage(token, title, body);
             }
 
-            if(changeTime(endTime).equals(now)) {
-                String title = "5분 뒤에 보관함이 닫혀";
-                String body = "걱정 보관함으로 와줘 !";
-
-                sendMessage(token, title, body);
-            }
+//            if(changeTime(endTime).equals(now)) {
+//                String title = "5분 뒤에 보관함이 닫혀";
+//                String body = "걱정 보관함으로 와줘 !";
+//
+//                sendMessage(token, title, body);
+//            }
         }
     }
 
