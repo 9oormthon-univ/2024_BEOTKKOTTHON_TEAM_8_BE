@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public enum BaseResponseStatus {
     /** 기본 Response **/
-    SUCCESS(true, 200, "요청에 성공하였습니다."),
+    SUCCESS(true, 200, "요청이 성공적으로 처리되었습니다."),
     INVALID_REQUEST(false, 400, "잘못된 요청입니다"),
     INVALID_HEADER(false, 401, "헤더 없음 or 토큰 불일치"),
 

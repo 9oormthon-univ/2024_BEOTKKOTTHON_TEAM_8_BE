@@ -22,8 +22,8 @@ public class FCMController {
     /* FCM Token 서버 저장 API */
     @Operation(summary = "FCM Token 전달", description="유저의 FCM Token을 전달합니다")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "사용 가능한 닉네임입니다"),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
+            @ApiResponse(responseCode = "200", description = "요청이 성공적으로 처리되었습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "400", description = "헤더 없음 or 토큰 불일치",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
             @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다."),
