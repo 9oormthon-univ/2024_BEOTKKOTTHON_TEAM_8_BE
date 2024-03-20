@@ -30,14 +30,14 @@ public class UserController {
     private final UserService userService;
 
     /* 중복 체크 API */
-    @Operation(summary = "닉네임 중복 체크", description="닉네임 중복체크를 진행합니다")
+    @Operation(summary = "닉네임 중복 체크", description="닉네임 중복체크를 진행합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "사용 가능한 닉네임입니다"),
-            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
+            @ApiResponse(responseCode = "200", description = "요청이 성공적으로 처리되었습니다."),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "400", description = "헤더 없음 or 토큰 불일치",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
             @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다."),
-            @ApiResponse(responseCode = "4001", description = "중복된 이름입니다")
+            @ApiResponse(responseCode = "4001", description = "중복된 이름입니다.")
     })
     @PostMapping("/name-check")
     public BaseResponse<String> nameCheck(@Valid @RequestBody PostNameReq postNameReq) {
@@ -51,14 +51,14 @@ public class UserController {
     /* 가입 API */
     @Operation(summary = "회원가입", description="회원가입을 진행합니다.")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "회원가입/로그인을 성공했습니다"),
+        @ApiResponse(responseCode = "200", description = "요청이 성공적으로 처리되었습니다."),
         @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
         @ApiResponse(responseCode = "400", description = "헤더 없음 or 토큰 불일치",
                 content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
         @ApiResponse(responseCode = "400", description = "입력값이 잘못되었습니다."),
         @ApiResponse(responseCode = "4001", description = "중복된 이름입니다"),
-        @ApiResponse(responseCode = "4002", description = "비밀번호는 4자리여야 합니다"),
-        @ApiResponse(responseCode = "4004", description = "걱정 시작 시간은 걱정 마감 시간보다 빨라야합니다")
+        @ApiResponse(responseCode = "4002", description = "비밀번호는 4자리여야 합니다."),
+//        @ApiResponse(responseCode = "4004", description = "걱정 시작 시간은 걱정 마감 시간보다 빨라야합니다.")
     })
     @PostMapping("/join")
     public BaseResponse<PostUserRes> join(@Valid @RequestBody PostJoinReq postJoinReq) {
@@ -98,9 +98,9 @@ public class UserController {
     }
 
     /* 가입 API */
-    @Operation(summary = "로그인", description="회원가입 및 로그인을 진행합니다.")
+    @Operation(summary = "로그인", description="로그인을 진행합니다.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "로그인을 성공했습니다."),
+            @ApiResponse(responseCode = "200", description = "요청이 성공적으로 처리되었습니다."),
             @ApiResponse(responseCode = "400", description = "잘못된 요청입니다."),
             @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN"))),
