@@ -17,13 +17,5 @@ import java.util.Map;
 @RestController
 @RequiredArgsConstructor
 public class TestController {
-    private final CloudWordService cloudWordService;
-
-    @GetMapping("/test")
-    public ResponseEntity<String> orderList() {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(new MediaType("text", "plain", StandardCharsets.UTF_8));
-        return new ResponseEntity<>("테스트 중입니다.", headers, HttpStatus.OK);
-    }
 
 }
