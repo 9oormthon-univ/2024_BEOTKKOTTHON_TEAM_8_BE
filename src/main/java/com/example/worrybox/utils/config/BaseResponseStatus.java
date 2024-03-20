@@ -34,6 +34,10 @@ public enum BaseResponseStatus {
 
     /** CheeringMessage **/
     INVALID_MESSAGE(false, 7001, "메세지를 찾을 수 없습니다."),
+
+    /** WordCloud **/
+    FAILED_RETURN(false,8001,"클라우드 생성에 실패하였습니다. 사용자 없음 or 사용자가 쓴 메모 없음."),
+
     /** 기타 **/
     WRONG_STATUS_CODE(false, 5000, "존재하지 않은 상태코드입니다."),
     INVALID_PARAMETERS(false, 400, "입력값이 잘못되었습니다.");
