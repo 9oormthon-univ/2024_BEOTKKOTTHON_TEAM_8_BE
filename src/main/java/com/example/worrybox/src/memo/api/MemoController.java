@@ -92,10 +92,10 @@ public class MemoController {
             @ApiResponse(responseCode = "6001", description = "메모를 찾을 수 없습니다.",
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
-    @PatchMapping("/{userId}")
-    public BaseResponse<Status> deleteMemo(@PathVariable Long userId){
+    @PatchMapping("/{memoId}")
+    public BaseResponse<Status> deleteMemo(@PathVariable Long memiId){
         try {
-            return new BaseResponse<>(memoService.deleteMemo(userId));
+            return new BaseResponse<>(memoService.deleteMemo(memiId));
         }
         catch (Exception e){
             BaseResponseStatus status = BaseResponseStatus.INVALID_MEMO;
