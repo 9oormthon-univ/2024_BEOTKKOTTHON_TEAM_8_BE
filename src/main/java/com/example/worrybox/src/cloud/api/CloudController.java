@@ -48,7 +48,7 @@ public class CloudController {
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
     @GetMapping("/cloud/{userId}/version2")
-    public BaseResponse<Map<String,Integer>> getCloud_2(@PathVariable Long userId) {
+    public BaseResponse<List<Map<String,Object>>> getCloud_2(@PathVariable Long userId) {
         try {
             return new BaseResponse<>(cloudWordService.getWordCloud_2(userId));
         } catch (Exception e) {

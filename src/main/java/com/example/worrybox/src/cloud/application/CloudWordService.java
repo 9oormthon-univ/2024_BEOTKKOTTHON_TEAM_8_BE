@@ -53,7 +53,7 @@ public class CloudWordService {
     }
 
     // 워드 클라우드 명사들 나열이 아닌 명사 개수 반환
-    public Map<String, Integer> getWordCloud_2(Long userId) {
+    public List<Map<String, Object>> getWordCloud_2(Long userId) {
         List<Memo> memos = memoRepository.findByUserId(userId);
 
         if (memos.isEmpty()) {
@@ -62,8 +62,6 @@ public class CloudWordService {
 
         Map<String, Integer> wordCounts = new HashMap<>(); // 명사들의 출현 빈도를 저장할 맵
 
-        List<String> words = new ArrayList<>(); // 명사들만을 포함할 리스트
-
         for (Memo memo : memos) {
             KomoranResult result = komoran.analyze(memo.getWorryText()); // 메모 분석
             List<String> nouns = result.getNouns(); // 현재 메모에서 추출된 명사들
@@ -71,10 +69,19 @@ public class CloudWordService {
             for (String noun : nouns) {
                 wordCounts.put(noun, wordCounts.getOrDefault(noun, 0) + 1); // 맵에 명사와 출현 횟수를 저장
             }
-
-            words.addAll(nouns); // 전체 명사 리스트에 추가
         }
 
-        return wordCounts; // 명사들만 포함된 리스트 반환
+        // 명사들의 출현 빈도를 포함하는 맵을 주어진 형식의 리스트로 변환, 리스트 형식으로 넣어줘야하니까 따로 작업 필요..
+        List<Map<String, Object>> wordsList = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : wordCounts.entrySet()) {
+            Map<String, Object> wordMap = new HashMap<>();
+            wordMap.put("text", entry.getKey());
+            wordMap.put("value", entry.getValue());
+            wordsList.add(wordMap);
+        }
+
+        return wordsList;
     }
+
+//        public String
 }
