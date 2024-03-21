@@ -1,11 +1,15 @@
 package com.example.worrybox.src.cloud.application;
 
-import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
 import com.example.worrybox.src.memo.domain.Memo;
 import com.example.worrybox.src.memo.domain.repository.MemoRepository;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.src.user.domain.repository.UserRepository;
-import com.example.worrybox.utils.entity.Status;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.Map.Entry;
 import com.example.worrybox.utils.execption.EntityNotFoundException;
 import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
@@ -14,10 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 // 워드 클라우드 명사 상위 n개 ,
 // 가장 많이 메모 쓴 날짜,
@@ -30,6 +31,7 @@ import java.util.Map;
 @Transactional(readOnly = true)
 public class CloudWordService {
     private final MemoRepository memoRepository;
+    private final UserRepository userRepository;
     private final Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 
     // 워드 클라우드 명사들 나열
@@ -60,7 +62,7 @@ public class CloudWordService {
             throw new EntityNotFoundException("Memo", new Exception("userId로 memo들을 찾을 수 없습니다."));
         }
 
-        Map<String, Integer> wordCounts = new HashMap<>(); // 명사들의 출현 빈도를 저장할 맵
+        Map<String, Integer> wordCounts = new HashMap<>(); // 빈도를 저장할 맵
 
         for (Memo memo : memos) {
             KomoranResult result = komoran.analyze(memo.getWorryText()); // 메모 분석
@@ -74,6 +76,9 @@ public class CloudWordService {
         // 명사들의 출현 빈도를 포함하는 맵을 주어진 형식의 리스트로 변환, 리스트 형식으로 넣어줘야하니까 따로 작업 필요..
         List<Map<String, Object>> wordsList = new ArrayList<>();
         for (Map.Entry<String, Integer> entry : wordCounts.entrySet()) {
+            if (wordsList.size() >= 50) {
+                break; // 최대 50개로 워드 클라우드 생성
+            }
             Map<String, Object> wordMap = new HashMap<>();
             wordMap.put("text", entry.getKey());
             wordMap.put("value", entry.getValue());
@@ -83,5 +88,33 @@ public class CloudWordService {
         return wordsList;
     }
 
-//        public String
+    // 가장 많은 메모를 넣은 날짜 반환
+    public String importTime(Long userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new EntityNotFoundException("User", new Exception("user를 찾을 수 없습니다.")));
+
+        List<Memo> memos = user.getMemos(); // 모든 메모 가져오기
+
+        // 메모가 비어있으면
+        if (memos.isEmpty()) {
+            throw new EntityNotFoundException("Memo", new Exception("메모를 찾을 수 없습니다."));
+        }
+
+        // 날짜별 메모 개수 계산
+        Map<LocalDateTime, Integer> dateCounts = new HashMap<>();
+        for (Memo memo : memos) {
+            LocalDateTime date = memo.getCreatedAt().toLocalDateTime();
+            dateCounts.put(date, dateCounts.getOrDefault(date, 0) + 1);
+        }
+
+        // 가장 많이 메모가 생성된 날짜 찾기
+        Optional<Entry<LocalDateTime, Integer>> maxEntry = dateCounts.entrySet()
+                .stream()
+                .max(Map.Entry.comparingByValue());
+        System.out.println(maxEntry);
+
+        // '년-월-일' 형식으로 변환하여 반환
+        return maxEntry.map(entry -> entry.getKey().format(DateTimeFormatter.ISO_LOCAL_DATE))
+                .orElse("가장 많은 메모가 생성된 날짜를 찾을 수 없습니다.");
+    }
 }
