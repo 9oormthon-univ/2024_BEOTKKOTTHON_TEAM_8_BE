@@ -2,6 +2,7 @@ package com.example.worrybox.src.memo.application;
 
 import com.example.worrybox.src.memo.api.dto.request.AiRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
+import com.example.worrybox.src.memo.api.dto.request.SolutionRequestDto;
 import com.example.worrybox.src.memo.api.dto.response.AiResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.CountResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
@@ -45,10 +46,19 @@ public class MemoService {
         User user = userRepository.findById(userId)
                 .orElseThrow(()
                         -> new EntityNotFoundException("User", new Exception("user를 찾을 수 없습니다.")));
-
         Memo memo = Memo.of(user, memoRequestDto);
         memoRepository.save(memo);
         return MemoResponseDto.from(memo);
+    }
+
+    // 메모 해결책 작성
+    @Transactional
+    public String writeSolution(SolutionRequestDto solutionRequestDto, Long memoId){
+        Memo memo = memoRepository.findById(memoId)
+                .orElseThrow(()
+                -> new EntityNotFoundException("Memo", new Exception("memo를 찾을 수 없습니다.")));
+        memo.update(solutionRequestDto);
+        return memo.getSolution();
     }
 
     // 메모 조회

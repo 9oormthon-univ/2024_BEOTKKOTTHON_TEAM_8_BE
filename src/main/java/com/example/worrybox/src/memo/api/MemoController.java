@@ -2,6 +2,7 @@ package com.example.worrybox.src.memo.api;
 
 import com.example.worrybox.src.memo.api.dto.request.AiRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
+import com.example.worrybox.src.memo.api.dto.request.SolutionRequestDto;
 import com.example.worrybox.src.memo.api.dto.response.AiResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.CountResponseDto;
 import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
@@ -38,25 +39,30 @@ public class MemoController {
     @PostMapping("/{userId}")
     public BaseResponse<MemoResponseDto> writeMemo(@RequestBody @Validated MemoRequestDto memoRequestDto, @PathVariable Long userId) {
         try {
-            String memo = memoRequestDto.getWorryText();
-
-            // 메모가 제대로 들어왔는지 검사
-            BaseResponseStatus status = isJoinValid(memo);
-            if (status != BaseResponseStatus.SUCCESS) {
-                return new BaseResponse<>(status);
-            }
-
-            // 제대로 들어왔다면 다음 진행
             return new BaseResponse<>(memoService.writeMemo(userId, memoRequestDto));
         } catch (BaseException e) {
-            return new BaseResponse<>(e.getStatus());
+            BaseResponseStatus status = BaseResponseStatus.INVALID_USER;
+            return new BaseResponse<>(status);
         }
     }
 
-    public BaseResponseStatus isJoinValid(String memo) {
-        if (memo.isBlank()) return BaseResponseStatus.INVALID_MEMO;  // 메모가 비어있는지 확인
-
-        return BaseResponseStatus.SUCCESS;
+    // 메모 솔루션 작성
+    @Operation(summary = "걱정 메모 솔루션 작성", description = "걱정 메모 솔루션을 작성합니다")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "솔루션 작성을 성공했습니다"),
+            @ApiResponse(responseCode = "400", description = "잘못된 요청입니다"),
+            @ApiResponse(responseCode = "401", description = "헤더 없음 or 토큰 불일치",
+                    content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
+    })
+    @PatchMapping ("/{memoId}/solution")
+    public BaseResponse<String> solution(@RequestBody SolutionRequestDto solutionRequestDto ,@Validated @PathVariable Long memoId){
+        try{
+            return new BaseResponse<>(memoService.writeSolution(solutionRequestDto,memoId));
+        }
+        catch (Exception e){
+            BaseResponseStatus status = BaseResponseStatus.INVALID_MEMO;
+            return new BaseResponse<>(status);
+        }
     }
 
     // 메모 조회
