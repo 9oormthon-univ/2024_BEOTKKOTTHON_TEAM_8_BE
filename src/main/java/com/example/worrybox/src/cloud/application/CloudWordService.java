@@ -100,18 +100,18 @@ public class CloudWordService {
             throw new EntityNotFoundException("Memo", new Exception("메모를 찾을 수 없습니다."));
         }
 
-        // 날짜별 메모 개수 계산
-        Map<LocalDateTime, Integer> dateCounts = new HashMap<>();
+        // 날짜별(년-월-일만 고려) 메모 개수 계산
+        Map<LocalDate, Integer> dateCounts = new HashMap<>();
         for (Memo memo : memos) {
-            LocalDateTime date = memo.getCreatedAt().toLocalDateTime();
+            LocalDateTime dateTime = memo.getCreatedAt().toLocalDateTime(); // Timestamp를 LocalDateTime으로 변환
+            LocalDate date = dateTime.toLocalDate(); // LocalDateTime에서 LocalDate 추출
             dateCounts.put(date, dateCounts.getOrDefault(date, 0) + 1);
         }
 
         // 가장 많이 메모가 생성된 날짜 찾기
-        Optional<Entry<LocalDateTime, Integer>> maxEntry = dateCounts.entrySet()
+        Optional<Entry<LocalDate, Integer>> maxEntry = dateCounts.entrySet()
                 .stream()
                 .max(Map.Entry.comparingByValue());
-        System.out.println(maxEntry);
 
         // '년-월-일' 형식으로 변환하여 반환
         return maxEntry.map(entry -> entry.getKey().format(DateTimeFormatter.ISO_LOCAL_DATE))
