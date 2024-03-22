@@ -90,7 +90,7 @@ public class FCMService {
             }
 
             if(changeTime(endTime).equals(now)) {
-                String title = "5분 뒤에 보관함이 닫혀";
+                String title = "5분 후에 보관함이 닫힐 거야";
                 String body = "걱정 보관함으로 와줘 !";
 
                 sendMessage(token, title, body);
