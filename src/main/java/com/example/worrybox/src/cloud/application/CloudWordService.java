@@ -1,5 +1,6 @@
 package com.example.worrybox.src.cloud.application;
 
+import com.example.worrybox.src.cloud.api.dto.CloudResponseDto;
 import com.example.worrybox.src.memo.domain.Memo;
 import com.example.worrybox.src.memo.domain.repository.MemoRepository;
 import com.example.worrybox.src.user.domain.User;
@@ -15,10 +16,15 @@ import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 import kr.co.shineware.nlp.komoran.model.KomoranResult;
 import lombok.RequiredArgsConstructor;
+import org.springframework.ai.chat.ChatClient;
+import org.springframework.ai.chat.ChatResponse;
+import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.openai.OpenAiChatOptions;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 // 워드 클라우드 명사 상위 n개 ,
 // 가장 많이 메모 쓴 날짜,
@@ -32,6 +38,7 @@ import java.util.*;
 public class CloudWordService {
     private final MemoRepository memoRepository;
     private final UserRepository userRepository;
+    private final ChatClient chatClient;
     private final Komoran komoran = new Komoran(DEFAULT_MODEL.FULL);
 
     // 워드 클라우드 명사들 나열
@@ -55,7 +62,7 @@ public class CloudWordService {
     }
 
     // 워드 클라우드 명사들 나열이 아닌 명사 개수 반환
-    public List<Map<String, Object>> getWordCloud_2(Long userId) {
+    public CloudResponseDto getWordCloud_2(Long userId) {
         List<Memo> memos = memoRepository.findByUserId(userId);
 
         if (memos.isEmpty()) {
@@ -84,12 +91,23 @@ public class CloudWordService {
             wordMap.put("value", entry.getValue());
             wordsList.add(wordMap);
         }
+        // 내림 차순으로 정렬
+        List<Map<String,
+                Object>> sortedWordsList = wordsList.stream()
+                .sorted((map1, map2) -> Integer.compare((Integer) map2.get("value"), (Integer) map1.get("value")))
+                .toList();
 
-        return wordsList;
+        String maxEntry = importTime(userId); // 걱정을 가장 많은 날짜
+        ChatResponse answer = callChat(sortedWordsList.get(0).get("text").toString()); // ai로 가장 많은 키워드 답변
+
+        return CloudResponseDto.create(
+                sortedWordsList,
+                maxEntry,
+                answer.getResult().getOutput().getContent());
     }
 
     // 가장 많은 메모를 넣은 날짜 반환
-    public String importTime(Long userId) {
+    private String importTime(Long userId) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new EntityNotFoundException("User", new Exception("user를 찾을 수 없습니다.")));
 
@@ -116,5 +134,21 @@ public class CloudWordService {
         // '년-월-일' 형식으로 변환하여 반환
         return maxEntry.map(entry -> entry.getKey().format(DateTimeFormatter.ISO_LOCAL_DATE))
                 .orElse("가장 많은 메모가 생성된 날짜를 찾을 수 없습니다.");
+    }
+
+    // AI 응답 메서드
+    private ChatResponse callChat(String question) {
+        return chatClient.call(
+                new Prompt(
+                        (question +
+                                "이 너무 걱정돼. " +
+                                "해결책 33자로 줘." +
+                                " 반말로."),
+                        OpenAiChatOptions.builder()
+                                .withTemperature(0.4F)
+                                .withFrequencyPenalty(0.7F)
+                                .withModel("gpt-3.5-turbo")
+                                .build()
+                ));
     }
 }
