@@ -19,9 +19,11 @@ public class CloudResponseDto {
     private List<Map<String, Object>> wordsList;
 
     @NotNull
-    @Schema(description = "AI 질문(걱정 메모 내용)", example = "너무 힘들어요.")
+    @Schema(description = "AI 답변", example = "그래도 해야죠 뭐")
     private String answer;
 
+    @NotNull
+    @Schema(description = "가장 많이 나온 명사", example = "걱정")
     private String maxEntry;
 
     public static CloudResponseDto create(List<Map<String, Object>> wordsList, String maxEntry, String answer) {

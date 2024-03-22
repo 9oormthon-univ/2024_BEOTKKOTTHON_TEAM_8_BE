@@ -14,6 +14,6 @@ import lombok.Setter;
 public class AiRequestDto {
 
     @NotNull
-    @Schema(description = "AI 답변", example = "이렇게 이렇게 해보면 될거야~")
+    @Schema(description = "AI 질문", example = "너무 힘들어요")
     private String question;
 }

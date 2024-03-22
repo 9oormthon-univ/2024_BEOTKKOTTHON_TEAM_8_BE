@@ -11,6 +11,6 @@ import lombok.*;
 public class AiResponseDto {
 
     @NotNull
-    @Schema(description = "AI 질문(걱정 메모 내용)", example = "너무 힘들어요.")
+    @Schema(description = "AI 답변", example = "이렇게 이렇게 하면 될거야~")
     private String answer;
 }
