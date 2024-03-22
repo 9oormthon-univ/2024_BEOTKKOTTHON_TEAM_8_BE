@@ -93,9 +93,9 @@ public class MemoController {
                     content = @Content(schema = @Schema(example = "INVALID_HEADER or INVALID_TOKEN")))
     })
     @PatchMapping("/{memoId}")
-    public BaseResponse<Status> deleteMemo(@PathVariable Long memiId){
+    public BaseResponse<Status> deleteMemo(@PathVariable Long memoId){
         try {
-            return new BaseResponse<>(memoService.deleteMemo(memiId));
+            return new BaseResponse<>(memoService.deleteMemo(memoId));
         }
         catch (Exception e){
             BaseResponseStatus status = BaseResponseStatus.INVALID_MEMO;
