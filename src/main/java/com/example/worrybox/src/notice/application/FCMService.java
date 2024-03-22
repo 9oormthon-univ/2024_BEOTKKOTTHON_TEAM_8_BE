@@ -89,12 +89,12 @@ public class FCMService {
                 sendMessage(token, title, body);
             }
 
-//            if(changeTime(endTime).equals(now)) {
-//                String title = "5분 뒤에 보관함이 닫혀";
-//                String body = "걱정 보관함으로 와줘 !";
-//
-//                sendMessage(token, title, body);
-//            }
+            if(changeTime(endTime).equals(now)) {
+                String title = "5분 뒤에 보관함이 닫혀";
+                String body = "걱정 보관함으로 와줘 !";
+
+                sendMessage(token, title, body);
+            }
         }
     }
 
