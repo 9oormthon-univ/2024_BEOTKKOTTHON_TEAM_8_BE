@@ -1,7 +1,6 @@
 package com.example.worrybox.src.letter.api.dto.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
 
 public interface GetLettersRes {
     @Schema(description = "편지 아이디", example = "1")

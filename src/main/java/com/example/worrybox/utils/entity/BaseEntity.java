@@ -31,9 +31,4 @@ public class BaseEntity {
     private Timestamp createdAt;
     @LastModifiedDate @Column(name = "updated_at")
     private Timestamp updatedAt;
-
-    // updatedAt 필드 업데이트를 위한 메서드
-    public void updateTime(Timestamp newUpdateTime) {
-        this.updatedAt = newUpdateTime;
-    }
 }

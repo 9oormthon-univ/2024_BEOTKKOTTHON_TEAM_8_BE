@@ -24,14 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
-
-// 워드 클라우드 명사 상위 n개 ,
-// 가장 많이 메모 쓴 날짜,
-// 가장 많이 걱정한 시간,
-// 날짜는 3월로 넣기(즉 그냥 아무 손 보지 말고 넣어라).
-// 발표 당일 (3월 24일) 까지의 메모들 기준으로 값을 반환.
-// 최대 50개만
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)

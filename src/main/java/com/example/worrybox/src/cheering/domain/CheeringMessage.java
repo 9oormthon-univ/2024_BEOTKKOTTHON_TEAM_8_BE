@@ -1,8 +1,6 @@
 package com.example.worrybox.src.cheering.domain;
 
 import com.example.worrybox.src.cheering.api.dto.request.CheeringMessageRequestDto;
-import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
-import com.example.worrybox.src.memo.domain.Memo;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.utils.entity.BaseEntity;
 import com.example.worrybox.utils.entity.Status;

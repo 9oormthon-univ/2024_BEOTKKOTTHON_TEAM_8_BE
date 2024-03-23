@@ -1,12 +1,8 @@
 package com.example.worrybox.src.cheering.api.dto.response;
 
-import com.example.worrybox.src.cheering.domain.CheeringMessage;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-
-import java.util.List;
-
 @Getter
 @Setter
 @Builder

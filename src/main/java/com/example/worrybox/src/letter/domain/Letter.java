@@ -8,10 +8,6 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
-import java.util.Date;
-
 @Entity
 @Getter
 @Setter

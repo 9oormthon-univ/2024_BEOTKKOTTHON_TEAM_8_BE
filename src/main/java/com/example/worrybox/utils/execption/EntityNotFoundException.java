@@ -1,5 +1,8 @@
 package com.example.worrybox.utils.execption;
 
+import lombok.Getter;
+
+@Getter
 public class EntityNotFoundException extends RuntimeException {
 
     private final Exception hiddenException;
@@ -14,8 +17,5 @@ public class EntityNotFoundException extends RuntimeException {
         this.hiddenException = exception;
     }
 
-    public Exception getHiddenException() {
-        return hiddenException;
-    }
 }
 

@@ -3,8 +3,6 @@ package com.example.worrybox.src.cheering.api;
 import com.example.worrybox.src.cheering.api.dto.request.CheeringMessageRequestDto;
 import com.example.worrybox.src.cheering.api.dto.response.CheeringMessageResponseDto;
 import com.example.worrybox.src.cheering.application.CheeringMessageService;
-import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
-import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
 import com.example.worrybox.utils.config.BaseException;
 import com.example.worrybox.utils.config.BaseResponse;
 import com.example.worrybox.utils.config.BaseResponseStatus;

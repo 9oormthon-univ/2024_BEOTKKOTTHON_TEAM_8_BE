@@ -4,7 +4,6 @@ import com.example.worrybox.src.cheering.api.dto.request.CheeringMessageRequestD
 import com.example.worrybox.src.cheering.api.dto.response.CheeringMessageResponseDto;
 import com.example.worrybox.src.cheering.domain.CheeringMessage;
 import com.example.worrybox.src.cheering.domain.repository.CheeringMessageRepository;
-import com.example.worrybox.src.memo.api.dto.response.MemoResponseDto;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.src.user.domain.repository.UserRepository;
 import com.example.worrybox.utils.config.BaseException;

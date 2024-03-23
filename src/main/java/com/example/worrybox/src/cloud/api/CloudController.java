@@ -2,7 +2,6 @@ package com.example.worrybox.src.cloud.api;
 
 import com.example.worrybox.src.cloud.api.dto.CloudResponseDto;
 import com.example.worrybox.src.cloud.application.CloudWordService;
-import com.example.worrybox.src.memo.api.dto.response.CountResponseDto;
 import com.example.worrybox.utils.config.BaseResponse;
 import com.example.worrybox.utils.config.BaseResponseStatus;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor

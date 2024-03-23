@@ -2,7 +2,6 @@ package com.example.worrybox.src.notice.application;
 
 import com.example.worrybox.src.letter.domain.repository.GetLetterId;
 import com.example.worrybox.src.letter.domain.repository.LetterRepository;
-import com.example.worrybox.src.user.api.dto.WorryTime;
 import com.example.worrybox.src.user.domain.User;
 import com.example.worrybox.src.user.domain.repository.UserRepository;
 import com.example.worrybox.utils.config.BaseException;
@@ -13,7 +12,6 @@ import com.google.firebase.messaging.FirebaseMessagingException;
 import com.google.firebase.messaging.Message;
 import com.google.firebase.messaging.Notification;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cglib.core.Local;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +21,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Service
 @RequiredArgsConstructor

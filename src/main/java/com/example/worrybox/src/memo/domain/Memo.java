@@ -3,7 +3,6 @@ package com.example.worrybox.src.memo.domain;
 import com.example.worrybox.src.memo.api.dto.request.MemoRequestDto;
 import com.example.worrybox.src.memo.api.dto.request.SolutionRequestDto;
 import com.example.worrybox.src.user.domain.User;
-import com.example.worrybox.utils.entity.BaseEntity;
 import com.example.worrybox.utils.entity.Status;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
@@ -11,7 +10,6 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.sql.Timestamp;
