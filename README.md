@@ -13,7 +13,7 @@
 | [조예진](https://github.com/yjin-jo) |  기도은   | [임하림](https://github.com/gkfla668), [이소윤](https://github.com/leesoyuun) | [정조은](https://github.com/joeun-01), [최인호](https://github.com/inhooo00) |
 
 ### 배포 주소
-- FrontEnd : https://2024-beotkkotthon-team-8-fe-znrr.vercel.app/
+- FrontEnd : https://worry-box.vercel.app/
 - BackEnd : https://worrybox.shop
 
 ### Repository
