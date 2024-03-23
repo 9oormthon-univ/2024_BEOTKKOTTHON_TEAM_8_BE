@@ -134,7 +134,7 @@ public class CloudWordService {
                 new Prompt(
                         (question +
                                 "이 너무 걱정돼. " +
-                                "해결책 33자로 줘." +
+                                "해결책 20자 이하로 줘." +
                                 " 반말로."),
                         OpenAiChatOptions.builder()
                                 .withTemperature(0.4F)
