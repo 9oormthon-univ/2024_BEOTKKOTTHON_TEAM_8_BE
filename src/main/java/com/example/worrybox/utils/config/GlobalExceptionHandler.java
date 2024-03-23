@@ -9,20 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
-    @ExceptionHandler(BaseException.class)
-    public BaseResponse<BaseResponseStatus> BaseException(BaseException e) {
-        BaseResponseStatus baseResponse = null;
-        try {
-            baseResponse = BaseResponseStatus.getBaseStatusByCode(e.getStatus().getCode());
-        } catch (Exception error) {
-            log.error(error.getMessage());
-        } finally {
-            log.error(e.getMessage());
-        }
-        return new BaseResponse<>(baseResponse);
-    }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public BaseResponse<String> BaseException(MethodArgumentNotValidException e) {
         // 에러 메시지 추출
