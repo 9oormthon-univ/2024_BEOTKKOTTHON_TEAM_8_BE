@@ -71,6 +71,6 @@ dependencies {
 	implementation 'com.github.shin285:KOMORAN:3.3.4'
 }
 
-tasks.named('test') {
+test {
 	useJUnitPlatform()
 }
