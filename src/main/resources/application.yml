@@ -5,7 +5,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     database: mysql
-    database-platform: org.hibernate.dialect.MySQL8Dialect
+    database-platform: org.hibernate.dialect.MySQLDialect
     hibernate:
       ddl-auto: update
     show-sql: true
@@ -15,7 +15,7 @@ spring:
         use_sql_comments: true
   ai:
     openai:
-      api-key: ${api-key}
+      api-key: ${API_KEY}
       chat:
         options:
           model: gpt-3.5-turbo
